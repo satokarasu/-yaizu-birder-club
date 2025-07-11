@@ -768,6 +768,100 @@ section h2 {
     margin-bottom: 0.5rem;
 }
 
+/* Activity Records */
+.add-record-form {
+    background: var(--primary-color);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 40px;
+    border: 1px solid var(--border-color);
+}
+
+.add-record-form h3 {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.records-list {
+    display: grid;
+    gap: 20px;
+}
+
+.record-card {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow-minimal);
+    transition: var(--transition);
+}
+
+.record-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.record-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.record-header h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.record-date {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.record-details p {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.record-details strong {
+    color: var(--text-primary);
+}
+
+.record-actions {
+    margin-top: 16px;
+    text-align: right;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+.no-records {
+    text-align: center;
+    color: var(--text-tertiary);
+    font-style: italic;
+    padding: 40px;
+}
+
 /* Contact Section */
 .contact {
     background: var(--primary-color);

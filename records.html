@@ -40,7 +40,41 @@
         <section class="records">
             <div class="container">
                 <h2>活動記録</h2>
-                <p>これまでの観察会の記録は随時更新されます。</p>
+                
+                <!-- 活動記録追加フォーム -->
+                <div class="add-record-form">
+                    <h3>新しい活動記録を追加</h3>
+                    <div class="form-group">
+                        <label for="recordDate">活動日</label>
+                        <input type="date" id="recordDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="recordLocation">活動場所</label>
+                        <input type="text" id="recordLocation" placeholder="例：高草山、焼津港">
+                    </div>
+                    <div class="form-group">
+                        <label for="recordTitle">活動内容</label>
+                        <input type="text" id="recordTitle" placeholder="例：春の探鳥会">
+                    </div>
+                    <div class="form-group">
+                        <label for="recordParticipants">参加者数</label>
+                        <input type="number" id="recordParticipants" placeholder="例：8" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="recordBirds">観察した鳥</label>
+                        <textarea id="recordBirds" placeholder="例：ヤマガラ、シジュウカラ、ウグイス、キビタキ"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordNotes">詳細・感想</label>
+                        <textarea id="recordNotes" placeholder="天候、特記事項、参加者の感想など"></textarea>
+                    </div>
+                    <button id="addRecordBtn" type="button" onclick="addActivityRecord()">記録を追加</button>
+                </div>
+                
+                <!-- 活動記録一覧 -->
+                <div class="records-list" id="recordsList">
+                    <p class="no-records">活動記録はメンバーが追加していきます。</p>
+                </div>
             </div>
         </section>
     </main>

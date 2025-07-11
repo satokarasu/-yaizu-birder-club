@@ -698,6 +698,98 @@ function saveRecordEdit(e) {
     showMessage('活動記録を更新しました！', 'success');
 }
 
+// Activity Records Management
+function addActivityRecord() {
+    const date = document.getElementById('recordDate').value;
+    const location = document.getElementById('recordLocation').value;
+    const title = document.getElementById('recordTitle').value;
+    const participants = document.getElementById('recordParticipants').value;
+    const birds = document.getElementById('recordBirds').value;
+    const notes = document.getElementById('recordNotes').value;
+    
+    if (!date || !location || !title) {
+        alert('活動日、場所、活動内容は必須項目です。');
+        return;
+    }
+    
+    const recordData = {
+        date: date,
+        location: location,
+        title: title,
+        participants: participants || 0,
+        birds: birds,
+        notes: notes,
+        timestamp: new Date().toISOString()
+    };
+    
+    // LocalStorageに保存
+    let savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
+    savedRecords.push(recordData);
+    localStorage.setItem('activityRecords', JSON.stringify(savedRecords));
+    
+    // フォームをリセット
+    document.getElementById('recordDate').value = '';
+    document.getElementById('recordLocation').value = '';
+    document.getElementById('recordTitle').value = '';
+    document.getElementById('recordParticipants').value = '';
+    document.getElementById('recordBirds').value = '';
+    document.getElementById('recordNotes').value = '';
+    
+    // 記録を表示
+    displayActivityRecords();
+    
+    alert('活動記録が追加されました！');
+}
+
+function displayActivityRecords() {
+    const recordsList = document.getElementById('recordsList');
+    if (!recordsList) return;
+    
+    const savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
+    
+    if (savedRecords.length === 0) {
+        recordsList.innerHTML = '<p class="no-records">活動記録はメンバーが追加していきます。</p>';
+        return;
+    }
+    
+    recordsList.innerHTML = '';
+    
+    savedRecords.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach((record, index) => {
+        const recordCard = document.createElement('div');
+        recordCard.className = 'record-card';
+        recordCard.innerHTML = `
+            <div class="record-header">
+                <h3>${record.title}</h3>
+                <span class="record-date">${record.date}</span>
+            </div>
+            <div class="record-details">
+                <p><strong>場所:</strong> ${record.location}</p>
+                <p><strong>参加者:</strong> ${record.participants}名</p>
+                ${record.birds ? `<p><strong>観察した鳥:</strong> ${record.birds}</p>` : ''}
+                ${record.notes ? `<p><strong>詳細・感想:</strong> ${record.notes}</p>` : ''}
+            </div>
+            <div class="record-actions">
+                <button class="delete-btn" onclick="deleteActivityRecord(${index})">削除</button>
+            </div>
+        `;
+        recordsList.appendChild(recordCard);
+    });
+}
+
+function deleteActivityRecord(index) {
+    if (confirm('この活動記録を削除してもよろしいですか？')) {
+        let savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
+        savedRecords.splice(index, 1);
+        localStorage.setItem('activityRecords', JSON.stringify(savedRecords));
+        displayActivityRecords();
+    }
+}
+
+// ページ読み込み時に記録を表示
+document.addEventListener('DOMContentLoaded', function() {
+    displayActivityRecords();
+});
+
 // Update record card display
 function updateRecordCard(card, data) {
     // Update date
