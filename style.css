@@ -1907,60 +1907,129 @@ footer p {
     
     .option-btn,
     .sound-option {
-        padding: 18px 20px;
-        font-size: 1rem;
-        min-height: 48px;
+        padding: 20px 24px;
+        font-size: 1.1rem;
+        min-height: 56px;
         border-radius: 12px;
-        font-weight: 500;
+        font-weight: 600;
+        background: var(--primary-color);
+        border: 3px solid var(--border-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .option-btn:hover,
+    .sound-option:hover {
+        border-color: var(--ocean-blue);
+        background: var(--tertiary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30, 136, 229, 0.2);
+    }
+    
+    .option-btn.correct {
+        background: #d4edda;
+        border-color: #28a745;
+        color: #155724;
+    }
+    
+    .option-btn.incorrect {
+        background: #f8d7da;
+        border-color: #dc3545;
+        color: #721c24;
     }
     
     /* ゲーム最適化 */
     .game-header {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        align-items: center;
+        gap: 20px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+    
+    .game-header h3 {
+        font-size: 1.4rem;
+        color: var(--ocean-blue);
+        margin: 0;
+        font-weight: 600;
     }
     
     .game-stats {
         width: 100%;
-        justify-content: space-between;
+        justify-content: center;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
+        display: flex;
     }
     
     .game-stats span {
-        padding: 10px 16px;
-        font-size: 0.95rem;
-        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        border-radius: 12px;
+        background: var(--ocean-blue);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(30, 136, 229, 0.3);
+        min-width: 80px;
+        text-align: center;
     }
     
     .memory-board {
         max-width: 100%;
-        gap: 8px;
-        padding: 0 10px;
+        gap: 10px;
+        padding: 0 8px;
         grid-template-columns: repeat(4, 1fr);
-        margin: 20px 0;
+        margin: 24px auto;
+        justify-content: center;
     }
     
     .memory-card {
         aspect-ratio: 1;
-        font-size: 1.8rem;
+        font-size: 2rem;
         border-radius: 12px;
-        min-height: 70px;
+        min-height: 80px;
+        max-height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         user-select: none;
         touch-action: manipulation;
+        background: var(--secondary-color);
+        border: 3px solid var(--border-color);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .memory-card:hover {
+        transform: scale(1.05);
+        border-color: var(--ocean-blue);
+    }
+    
+    .memory-card.flipped {
+        background: var(--tertiary-color);
+        border-color: var(--ocean-blue);
+        transform: scale(1.02);
+    }
+    
+    .memory-card.matched {
+        background: #d4edda;
+        border-color: #28a745;
+        transform: scale(0.98);
     }
     
     .game-container {
-        padding: 20px;
-        margin: 20px 0;
+        padding: 24px 16px;
+        margin: 24px 0;
         border-radius: 16px;
         max-width: 100%;
         overflow: visible;
+        background: var(--primary-color);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--ocean-blue);
     }
     
     /* 写真ギャラリー最適化 */
@@ -2014,12 +2083,23 @@ footer p {
     .upload-btn,
     #addBirdBtn,
     .login-btn {
-        padding: 16px 24px;
-        font-size: 1rem;
+        padding: 18px 28px;
+        font-size: 1.1rem;
         font-weight: 600;
-        min-height: 48px;
-        border-radius: 12px;
+        min-height: 52px;
+        border-radius: 16px;
         transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .game-btn {
+        background: var(--seaweed-green);
+        color: white;
+        margin: 8px 4px;
+        min-width: 120px;
     }
     
     .quiz-btn:hover,
@@ -2027,8 +2107,15 @@ footer p {
     .upload-btn:hover,
     #addBirdBtn:hover,
     .login-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    
+    .game-controls {
+        text-align: center;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 2px solid var(--border-color);
     }
     
     /* ユーザー情報最適化 */
@@ -2229,10 +2316,18 @@ footer p {
     
     .option-btn,
     .sound-option {
-        padding: 16px 18px;
-        font-size: 0.95rem;
-        min-height: 44px;
-        border-radius: 10px;
+        padding: 18px 20px;
+        font-size: 1rem;
+        min-height: 50px;
+        border-radius: 12px;
+        font-weight: 600;
+        background: var(--primary-color);
+        border: 2px solid var(--border-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
     
     /* ログインカード */
