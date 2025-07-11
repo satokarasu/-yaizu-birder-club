@@ -1476,6 +1476,11 @@ footer p {
     padding: 30px;
     margin-top: 30px;
     border: 1px solid var(--border-color);
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 .game-header {
@@ -1797,6 +1802,7 @@ footer p {
         line-height: 1.7;
         margin-bottom: 2rem;
         padding: 0 10px;
+        text-align: left;
     }
     
     .cta-button {
@@ -1932,13 +1938,29 @@ footer p {
         max-width: 100%;
         gap: 8px;
         padding: 0 10px;
+        grid-template-columns: repeat(4, 1fr);
+        margin: 20px 0;
     }
     
     .memory-card {
         aspect-ratio: 1;
         font-size: 1.8rem;
         border-radius: 12px;
-        min-height: 60px;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        touch-action: manipulation;
+    }
+    
+    .game-container {
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 16px;
+        max-width: 100%;
+        overflow: visible;
     }
     
     /* 写真ギャラリー最適化 */
@@ -2122,6 +2144,7 @@ footer p {
         font-size: 1rem;
         margin-bottom: 1.5rem;
         padding: 0 5px;
+        text-align: left;
     }
     
     .cta-button {

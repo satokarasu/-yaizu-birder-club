@@ -207,7 +207,17 @@ const memoryGameData = {
 };
 
 function startMemoryGame() {
-    document.getElementById('memory-game').style.display = 'block';
+    const gameContainer = document.getElementById('memory-game');
+    gameContainer.style.display = 'block';
+    
+    // スマホでスクロールして表示
+    setTimeout(() => {
+        gameContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }, 100);
+    
     resetMemoryGame();
 }
 
@@ -241,7 +251,15 @@ function createMemoryBoard() {
             <div class="card-face">${card}</div>
             <div class="card-back">?</div>
         `;
-        cardElement.addEventListener('click', () => flipCard(index, card));
+        
+        // タッチとクリック両方に対応
+        const flipHandler = () => flipCard(index, card);
+        cardElement.addEventListener('click', flipHandler);
+        cardElement.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            flipHandler();
+        });
+        
         board.appendChild(cardElement);
     });
 }
@@ -364,7 +382,17 @@ const soundQuizData = {
 };
 
 function startSoundQuiz() {
-    document.getElementById('sound-quiz').style.display = 'block';
+    const gameContainer = document.getElementById('sound-quiz');
+    gameContainer.style.display = 'block';
+    
+    // スマホでスクロールして表示
+    setTimeout(() => {
+        gameContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }, 100);
+    
     soundQuizData.currentQuestion = 0;
     soundQuizData.score = 0;
     soundQuizData.answered = false;
@@ -851,13 +879,26 @@ function deletePhoto(photoId) {
 }
 
 // Initialize photo gallery on gallery page
-if (window.location.pathname.includes('gallery.html')) {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initPhotoGallery);
-    } else {
+function tryInitPhotoGallery() {
+    if (document.getElementById('fileUploadArea')) {
         initPhotoGallery();
     }
 }
+
+if (window.location.pathname.includes('gallery.html') || document.getElementById('fileUploadArea')) {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryInitPhotoGallery);
+    } else {
+        tryInitPhotoGallery();
+    }
+}
+
+// Additional fallback
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('fileUploadArea')) {
+        initPhotoGallery();
+    }
+});
 
 // Slideshow functionality
 let currentSlide = 0;
