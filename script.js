@@ -753,13 +753,32 @@ if (window.location.pathname.includes('records.html')) {
 
 // Photo upload functionality
 function initPhotoGallery() {
+    console.log('Initializing photo gallery...');
+    
     const fileUploadArea = document.getElementById('fileUploadArea');
     const photoInput = document.getElementById('photoInput');
     
-    if (!fileUploadArea || !photoInput) return;
+    console.log('Elements found:', {
+        fileUploadArea: !!fileUploadArea,
+        photoInput: !!photoInput
+    });
     
-    // Click to upload
-    fileUploadArea.addEventListener('click', () => {
+    if (!fileUploadArea || !photoInput) {
+        console.error('Required elements not found for photo gallery');
+        return;
+    }
+    
+    // Click to upload (improved for mobile)
+    fileUploadArea.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Upload area clicked');
+        photoInput.click();
+    });
+    
+    // Touch support for mobile
+    fileUploadArea.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        console.log('Upload area touched');
         photoInput.click();
     });
     
@@ -786,10 +805,20 @@ function initPhotoGallery() {
 }
 
 function uploadPhoto() {
+    console.log('uploadPhoto function called');
+    
     const photoInput = document.getElementById('photoInput');
     const title = document.getElementById('photoTitle').value.trim();
     const description = document.getElementById('photoDescription').value.trim();
     const photographer = document.getElementById('photographerName').value.trim();
+    
+    console.log('Form values:', { title, description, photographer });
+    console.log('Files selected:', photoInput ? photoInput.files.length : 'photoInput not found');
+    
+    if (!photoInput) {
+        alert('ファイル入力要素が見つかりません。');
+        return;
+    }
     
     if (!photoInput.files.length) {
         alert('写真を選択してください。');
@@ -801,39 +830,72 @@ function uploadPhoto() {
         return;
     }
     
+    console.log('Starting file upload process...');
+    
     const photos = JSON.parse(localStorage.getItem('birdPhotos') || '[]');
     
     Array.from(photoInput.files).forEach((file, index) => {
+        console.log('Processing file:', file.name, 'Size:', file.size);
+        
+        // ファイルサイズチェック (5MB制限)
+        if (file.size > 5 * 1024 * 1024) {
+            alert(`ファイル "${file.name}" が大きすぎます。5MB以下の画像を選択してください。`);
+            return;
+        }
+        
+        // 画像ファイルかチェック
+        if (!file.type.startsWith('image/')) {
+            alert(`"${file.name}" は画像ファイルではありません。`);
+            return;
+        }
+        
         const reader = new FileReader();
+        
         reader.onload = function(e) {
-            const photo = {
-                id: Date.now() + index,
-                title: title,
-                description: description,
-                photographer: photographer || '匿名',
-                imageData: e.target.result,
-                uploadDate: new Date().toLocaleDateString('ja-JP')
-            };
-            
-            photos.push(photo);
-            localStorage.setItem('birdPhotos', JSON.stringify(photos));
-            
-            // Clear form
-            document.getElementById('photoTitle').value = '';
-            document.getElementById('photoDescription').value = '';
-            document.getElementById('photographerName').value = '';
-            photoInput.value = '';
-            
-            // Reload photos display
-            loadPhotos();
-            
-            // Update about page photo if this is the latest photo
-            if (index === photoInput.files.length - 1) {
-                updateAboutPagePhoto();
+            console.log('File loaded successfully');
+            try {
+                const photo = {
+                    id: Date.now() + index,
+                    title: title,
+                    description: description,
+                    photographer: photographer || '匿名',
+                    imageData: e.target.result,
+                    uploadDate: new Date().toLocaleDateString('ja-JP')
+                };
+                
+                photos.push(photo);
+                localStorage.setItem('birdPhotos', JSON.stringify(photos));
+                console.log('Photo saved to localStorage');
+                
+                // Clear form only after last file
+                if (index === photoInput.files.length - 1) {
+                    document.getElementById('photoTitle').value = '';
+                    document.getElementById('photoDescription').value = '';
+                    document.getElementById('photographerName').value = '';
+                    photoInput.value = '';
+                    console.log('Form cleared');
+                }
+                
+                // Reload photos display
+                loadPhotos();
+                
+                // Update about page photo if this is the latest photo
+                if (index === photoInput.files.length - 1) {
+                    updateAboutPagePhoto();
+                }
+                
+                showMessage('写真を投稿しました！', 'success');
+            } catch (error) {
+                console.error('Error saving photo:', error);
+                alert('写真の保存に失敗しました。');
             }
-            
-            showMessage('写真を投稿しました！', 'success');
         };
+        
+        reader.onerror = function(error) {
+            console.error('FileReader error:', error);
+            alert('ファイルの読み込みに失敗しました。');
+        };
+        
         reader.readAsDataURL(file);
     });
 }
