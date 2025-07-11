@@ -60,10 +60,6 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="scientificName">学名</label>
-                        <input type="text" id="scientificName" placeholder="例：Poecile varius">
-                    </div>
-                    <div class="form-group">
                         <label for="observationLocation">観察地</label>
                         <input type="text" id="observationLocation" placeholder="例：高草山、焼津港" required>
                     </div>
@@ -90,11 +86,6 @@
                     <div class="form-group">
                         <label for="observationNotes">観察メモ</label>
                         <textarea id="observationNotes" placeholder="特徴や行動の詳細など" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="birdPhotos">写真（複数選択可能）</label>
-                        <input type="file" id="birdPhotos" accept="image/*" multiple>
-                        <small>※ 観察した鳥の写真があれば追加してください</small>
                     </div>
                     <button id="addBirdBtn" type="button" onclick="addBirdRecord()">🐦 記録を追加</button>
                 </div>

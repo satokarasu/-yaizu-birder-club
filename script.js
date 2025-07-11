@@ -706,7 +706,6 @@ function addActivityRecord() {
     const participants = document.getElementById('recordParticipants').value;
     const birds = document.getElementById('recordBirds').value;
     const notes = document.getElementById('recordNotes').value;
-    const photosInput = document.getElementById('recordPhotos');
     
     if (!date || !location || !title) {
         alert('活動日、場所、活動内容は必須項目です。');
@@ -721,34 +720,9 @@ function addActivityRecord() {
         participants: participants || 0,
         birds: birds,
         notes: notes,
-        photos: [],
         timestamp: new Date().toISOString()
     };
     
-    // 写真を処理
-    if (photosInput.files.length > 0) {
-        Array.from(photosInput.files).forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                recordData.photos.push({
-                    name: file.name,
-                    data: e.target.result,
-                    size: file.size
-                });
-                
-                // 最後の写真が読み込まれたら保存
-                if (recordData.photos.length === photosInput.files.length) {
-                    saveActivityRecord(recordData);
-                }
-            };
-            reader.readAsDataURL(file);
-        });
-    } else {
-        saveActivityRecord(recordData);
-    }
-}
-
-function saveActivityRecord(recordData) {
     // LocalStorageに保存
     let savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
     savedRecords.push(recordData);
@@ -761,7 +735,6 @@ function saveActivityRecord(recordData) {
     document.getElementById('recordParticipants').value = '';
     document.getElementById('recordBirds').value = '';
     document.getElementById('recordNotes').value = '';
-    document.getElementById('recordPhotos').value = '';
     
     // 記録を表示
     displayActivityRecords();
@@ -786,22 +759,6 @@ function displayActivityRecords() {
         const recordCard = document.createElement('div');
         recordCard.className = 'record-card';
         
-        let photosHtml = '';
-        if (record.photos && record.photos.length > 0) {
-            photosHtml = `
-                <div class="record-photos">
-                    <h4>📸 活動写真</h4>
-                    <div class="photos-grid">
-                        ${record.photos.map((photo, photoIndex) => `
-                            <div class="photo-thumbnail" onclick="openPhotoModal('${photo.data}', '${photo.name}')">
-                                <img src="${photo.data}" alt="${photo.name}" />
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-        
         recordCard.innerHTML = `
             <div class="record-header">
                 <h3>${record.title}</h3>
@@ -812,7 +769,6 @@ function displayActivityRecords() {
                 <p><strong>参加者:</strong> ${record.participants}名</p>
                 ${record.birds ? `<p><strong>観察した鳥:</strong> ${record.birds}</p>` : ''}
                 ${record.notes ? `<p><strong>詳細・感想:</strong> ${record.notes}</p>` : ''}
-                ${photosHtml}
             </div>
             <div class="record-actions">
                 <button class="delete-btn" onclick="deleteActivityRecord(${index})">削除</button>
@@ -1279,10 +1235,11 @@ function displayBirdRecords() {
                 <span class="frequency">${bird.frequency}</span>
             </div>
             <div class="bird-info">
-                <p><strong>学名:</strong> ${bird.scientificName}</p>
                 <p><strong>観察地:</strong> ${bird.location}</p>
-                <p><strong>観察時期:</strong> ${bird.season}</p>
-                ${bird.notes ? `<p class="bird-notes">${bird.notes}</p>` : ''}
+                ${bird.observationDate ? `<p><strong>観察日時:</strong> ${new Date(bird.observationDate).toLocaleString('ja-JP')}</p>` : ''}
+                <p><strong>観察時期:</strong> ${bird.season || '不明'}</p>
+                ${bird.count ? `<p><strong>個体数:</strong> ${bird.count}羽</p>` : ''}
+                ${bird.notes ? `<p class="bird-notes"><strong>観察メモ:</strong> ${bird.notes}</p>` : ''}
             </div>
             <div class="bird-actions">
                 <button class="delete-btn" onclick="deleteBirdRecord(${index})">削除</button>
@@ -1461,14 +1418,12 @@ function removePhotoPreview(index) {
 function addBirdRecord() {
     const name = document.getElementById('birdName').value;
     const category = document.getElementById('birdCategory').value;
-    const scientificName = document.getElementById('scientificName').value;
     const location = document.getElementById('observationLocation').value;
     const observationDate = document.getElementById('observationDate').value;
     const season = document.getElementById('observationSeason').value;
     const frequency = document.getElementById('frequency').value;
     const count = document.getElementById('birdCount').value;
     const notes = document.getElementById('observationNotes').value;
-    const photosInput = document.getElementById('birdPhotos');
     
     if (!name || !category || !location) {
         alert('鳥の名前、生息環境、観察地は必須項目です。');
@@ -1479,41 +1434,15 @@ function addBirdRecord() {
         id: 'bird_' + Date.now(),
         name: name,
         category: category,
-        scientificName: scientificName,
         location: location,
         observationDate: observationDate,
         season: season,
         frequency: frequency,
         count: count,
         notes: notes,
-        photos: [],
         timestamp: new Date().toISOString()
     };
     
-    // 写真を処理
-    if (photosInput.files.length > 0) {
-        Array.from(photosInput.files).forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                birdData.photos.push({
-                    name: file.name,
-                    data: e.target.result,
-                    size: file.size
-                });
-                
-                // 最後の写真が読み込まれたら保存
-                if (birdData.photos.length === photosInput.files.length) {
-                    saveBirdRecord(birdData);
-                }
-            };
-            reader.readAsDataURL(file);
-        });
-    } else {
-        saveBirdRecord(birdData);
-    }
-}
-
-function saveBirdRecord(birdData) {
     // LocalStorageに保存
     let savedBirds = JSON.parse(localStorage.getItem('birdRecords') || '[]');
     savedBirds.push(birdData);
@@ -1522,14 +1451,12 @@ function saveBirdRecord(birdData) {
     // フォームをリセット
     document.getElementById('birdName').value = '';
     document.getElementById('birdCategory').value = '';
-    document.getElementById('scientificName').value = '';
     document.getElementById('observationLocation').value = '';
     document.getElementById('observationDate').value = '';
     document.getElementById('observationSeason').value = '';
     document.getElementById('frequency').value = '★★★';
     document.getElementById('birdCount').value = '';
     document.getElementById('observationNotes').value = '';
-    document.getElementById('birdPhotos').value = '';
     
     // 記録を表示
     displayBirdRecords();
