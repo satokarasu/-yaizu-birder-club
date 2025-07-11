@@ -421,14 +421,37 @@ section h2 {
     font-size: 1.1rem;
 }
 
-.form-embed-container {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-minimal);
+.form-link-container {
+    text-align: center;
+    padding: 40px 20px;
 }
 
-.form-embed-container iframe {
-    border-radius: 12px;
+.form-link-btn {
+    display: inline-block;
+    background: var(--ocean-blue);
+    color: white;
+    padding: 20px 40px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-soft);
+    border: none;
+    cursor: pointer;
+}
+
+.form-link-btn:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(30, 136, 229, 0.4);
+}
+
+.form-note {
+    margin-top: 16px;
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+    font-style: italic;
 }
 
 /* Photo Upload Section */
@@ -1977,7 +2000,7 @@ footer p {
     .bird-photo-frame {
         width: 100%;
         max-width: 100%;
-        height: 840px;
+        height: 1680px;
         margin: 0 auto;
         border-radius: 16px;
     }
