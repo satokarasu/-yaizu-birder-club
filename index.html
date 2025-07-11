@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>焼津市役所BIRDERクラブ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="auth.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="icon">🦅</i>焼津市役所BIRDERクラブ</h1>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="gallery.html">写真ギャラリー</a></li>
+                    <li><a href="records.html">活動記録</a></li>
+                    <li><a href="birds.html">観察記録</a></li>
+                    <li><a href="quiz.html">鳥クイズ</a></li>
+                    <li><a href="games.html">ミニゲーム</a></li>
+                </ul>
+                <div class="user-info">
+                    <span id="currentUser">ゲスト</span>
+                    <button id="logoutBtn" class="logout-btn">ログアウト</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h2>🌊 市役所職員の野鳥愛好会 🐟</h2>
+                <p>焼津市役所BIRDERクラブは、海辺や山の自然に囲まれた環境で、のんびりとバードウォッチングを楽しんでいます。みんなで鳥たちを見つけては『あ、あそこにいた！』『きれいな鳴き声だね』なんて言いながら、自然の魅力を発見して共有しています。仕事の合間や休日に、ちょっと外に出て空を見上げるだけでも、普段気づかない鳥たちの世界が広がっていることに驚かされます。</p>
+                <a href="gallery.html" class="cta-button">🦅 写真を見る</a>
+            </div>
+        </section>
+
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>私たちについて</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>焼津市役所BIRDERクラブとは</h3>
+                        <p>焼津市役所 BIRDERクラブ は、鳥が好きな職員有志が集まり、週末の探鳥会や観察記録の共有を通じて交流を深めているサークルです。活動フィールドは焼津市内にとどまらず、静岡県全域や近隣県、時には国内有数の探鳥地まで足を伸ばすことも。初心者からベテランまで、部署や経験を超えて気軽に参加できるのが魅力です。</p>
+                        <p>私たちは野鳥観察を通じて、自然環境の保護と理解を深める活動を行っています。メンバー同士で撮影した写真や観察記録を共有し、知識を深め合っています。</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="bird-photo-frame" id="aboutBirdPhoto">
+                            <div class="photo-slideshow">
+                                <div class="slide-container" id="slideContainer">
+                                    <div class="bird-photo-placeholder slide active">
+                                    </div>
+                                </div>
+                                <div class="slide-controls">
+                                    <button class="slide-btn prev" id="prevBtn">❮</button>
+                                    <div class="slide-indicators" id="slideIndicators"></div>
+                                    <button class="slide-btn next" id="nextBtn">❯</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 焼津市役所BIRDERクラブ All rights reserved.</p>
+            <p>野鳥を愛し、自然を守る仲間たち</p>
+        </div>
+    </footer>
+</body>
+</html>
