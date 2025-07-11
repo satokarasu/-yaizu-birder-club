@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鳥クイズ - 焼津市役所BIRDERクラブ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="icon">🦅</i>焼津市役所BIRDERクラブ</h1>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="gallery.html">写真ギャラリー</a></li>
+                    <li><a href="records.html">活動記録</a></li>
+                    <li><a href="birds.html">観察記録</a></li>
+                    <li><a href="quiz.html" class="active">鳥クイズ</a></li>
+                    <li><a href="games.html">ミニゲーム</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>🎯 鳥クイズ</h1>
+                <p>あなたの野鳥知識をテストしてみましょう！</p>
+            </div>
+        </section>
+
+        <section class="quiz">
+            <div class="container">
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <h3>焼津周辺の野鳥クイズ</h3>
+                        <p>あなたの野鳥知識をテストしてみましょう！</p>
+                    </div>
+                    <div class="quiz-content">
+                        <div class="quiz-question" id="question">
+                            <h4>問題を読み込み中...</h4>
+                        </div>
+                        <div class="quiz-options" id="options">
+                            <!-- オプションはJavaScriptで動的に生成 -->
+                        </div>
+                        <div class="quiz-result" id="result" style="display: none;">
+                            <!-- 結果表示エリア -->
+                        </div>
+                        <div class="quiz-buttons">
+                            <button id="start-quiz" class="quiz-btn">クイズを始める</button>
+                            <button id="next-question" class="quiz-btn" style="display: none;">次の問題</button>
+                            <button id="restart-quiz" class="quiz-btn" style="display: none;">もう一度挑戦</button>
+                        </div>
+                    </div>
+                    <div class="quiz-stats">
+                        <div class="stat">
+                            <span class="stat-label">正答率</span>
+                            <span class="stat-value" id="accuracy">0%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">問題数</span>
+                            <span class="stat-value" id="question-count">0/10</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">スコア</span>
+                            <span class="stat-value" id="score">0点</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quiz-tips">
+            <div class="container">
+                <h2>クイズのヒント</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon">🔍</div>
+                        <h3>観察のコツ</h3>
+                        <p>鳥の大きさ、色、くちばしの形、生息環境に注目すると識別しやすくなります。</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">📚</div>
+                        <h3>学習方法</h3>
+                        <p>野鳥図鑑や観察記録を読み返して、特徴的な行動や鳴き声を覚えましょう。</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🎵</div>
+                        <h3>鳴き声</h3>
+                        <p>鳥の鳴き声は重要な識別ポイント。実際の観察会で耳を澄ませて聞いてみましょう。</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">📍</div>
+                        <h3>生息地</h3>
+                        <p>海鳥は港や海岸、水鳥は川や池、山鳥は森林など、生息地も重要な手がかりです。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 焼津市役所BIRDERクラブ All rights reserved.</p>
+            <p>野鳥を愛し、自然を守る仲間たち</p>
+        </div>
+    </footer>
+</body>
+</html>

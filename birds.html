@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>観察記録 - 焼津市役所BIRDERクラブ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="icon">🦅</i>焼津市役所BIRDERクラブ</h1>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="gallery.html">写真ギャラリー</a></li>
+                    <li><a href="records.html">活動記録</a></li>
+                    <li><a href="birds.html" class="active">観察記録</a></li>
+                    <li><a href="quiz.html">鳥クイズ</a></li>
+                    <li><a href="games.html">ミニゲーム</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>🐦 観察記録</h1>
+                <p>これまでに観察した鳥の種類をご紹介します</p>
+            </div>
+        </section>
+
+
+        <section class="bird-categories">
+            <div class="container">
+                <h2>鳥類観察記録</h2>
+                
+                <!-- 鳥の記録追加フォーム -->
+                <div class="add-bird-form">
+                    <h3>新しい観察記録を追加</h3>
+                    <div class="form-group">
+                        <label for="birdName">鳥の名前</label>
+                        <input type="text" id="birdName" placeholder="例：ヤマガラ">
+                    </div>
+                    <div class="form-group">
+                        <label for="birdCategory">生息環境</label>
+                        <select id="birdCategory">
+                            <option value="sea">海鳥</option>
+                            <option value="river">水鳥</option>
+                            <option value="mountain">山鳥</option>
+                            <option value="rare">希少種</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scientificName">学名</label>
+                        <input type="text" id="scientificName" placeholder="例：Poecile varius">
+                    </div>
+                    <div class="form-group">
+                        <label for="observationLocation">観察地</label>
+                        <input type="text" id="observationLocation" placeholder="例：高草山、焼津港">
+                    </div>
+                    <div class="form-group">
+                        <label for="observationSeason">観察時期</label>
+                        <input type="text" id="observationSeason" placeholder="例：通年、春季のみ">
+                    </div>
+                    <div class="form-group">
+                        <label for="frequency">観察頻度</label>
+                        <select id="frequency">
+                            <option value="★★★">★★★（頻繁）</option>
+                            <option value="★★">★★（普通）</option>
+                            <option value="★">★（稀）</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="observationNotes">観察メモ</label>
+                        <textarea id="observationNotes" placeholder="特徴や行動の詳細など"></textarea>
+                    </div>
+                    <button id="addBirdBtn" type="button" onclick="addBirdRecord()">記録を追加</button>
+                </div>
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">すべて</button>
+                    <button class="category-tab" data-category="sea">海鳥</button>
+                    <button class="category-tab" data-category="river">水鳥</button>
+                    <button class="category-tab" data-category="mountain">山鳥</button>
+                    <button class="category-tab" data-category="rare">希少種</button>
+                </div>
+
+                <div class="birds-grid" id="birdsGrid">
+                    <p class="no-birds">観察記録はメンバーが追加していきます。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="seasonal-migration">
+            <div class="container">
+                <h2>季節別渡り鳥情報</h2>
+                <div class="seasons-grid">
+                    <div class="season-card">
+                        <h3>🌸 春（3月〜5月）</h3>
+                        <div class="migration-birds">
+                            <div class="bird-item">
+                                <span class="bird-name">ツバメ</span>
+                                <span class="peak-time">4月中旬</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">オオルリ</span>
+                                <span class="peak-time">4月下旬</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">キビタキ</span>
+                                <span class="peak-time">5月上旬</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="season-card">
+                        <h3>☀️ 夏（6月〜8月）</h3>
+                        <div class="migration-birds">
+                            <div class="bird-item">
+                                <span class="bird-name">アオバズク</span>
+                                <span class="peak-time">6月〜8月</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">サンコウチョウ</span>
+                                <span class="peak-time">7月上旬</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">ブッポウソウ</span>
+                                <span class="peak-time">7月中旬</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="season-card">
+                        <h3>🍂 秋（9月〜11月）</h3>
+                        <div class="migration-birds">
+                            <div class="bird-item">
+                                <span class="bird-name">サシバ</span>
+                                <span class="peak-time">9月下旬</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">ノビタキ</span>
+                                <span class="peak-time">10月上旬</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">タゲリ</span>
+                                <span class="peak-time">11月中旬</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="season-card">
+                        <h3>❄️ 冬（12月〜2月）</h3>
+                        <div class="migration-birds">
+                            <div class="bird-item">
+                                <span class="bird-name">マガモ</span>
+                                <span class="peak-time">12月〜2月</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">ユリカモメ</span>
+                                <span class="peak-time">12月〜1月</span>
+                            </div>
+                            <div class="bird-item">
+                                <span class="bird-name">ツグミ</span>
+                                <span class="peak-time">1月〜2月</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="observation-spots">
+            <div class="container">
+                <h2>観察スポット別記録</h2>
+                <div class="spots-grid">
+                    <div class="spot-card">
+                        <h3>🌊 焼津港</h3>
+                        <div class="spot-highlights">
+                            <h4>主な観察種</h4>
+                            <p>カモメ、ウミネコ、ミサゴ、カワセミ、イソヒヨドリ</p>
+                        </div>
+                    </div>
+
+                    <div class="spot-card">
+                        <h3>🏔️ 高草山</h3>
+                        <div class="spot-highlights">
+                            <h4>主な観察種</h4>
+                            <p>ノスリ、アオジ、ウグイス、フクロウ、キビタキ</p>
+                        </div>
+                    </div>
+
+                    <div class="spot-card">
+                        <h3>🌊 朝霧川</h3>
+                        <div class="spot-highlights">
+                            <h4>主な観察種</h4>
+                            <p>カワセミ、コサギ、マガモ、ヤマセミ、セキレイ</p>
+                        </div>
+                    </div>
+
+                    <div class="spot-card">
+                        <h3>🏖️ 田尻海岸</h3>
+                        <div class="spot-highlights">
+                            <h4>主な観察種</h4>
+                            <p>シギ類、チドリ類、ミサゴ、ウミネコ、イソシギ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 焼津市役所BIRDERクラブ All rights reserved.</p>
+            <p>野鳥を愛し、自然を守る仲間たち</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,2645 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #ffffff;
+    --secondary-color: #f0f8ff;
+    --tertiary-color: #e6f3ff;
+    --accent-color: #ff6b35;
+    --ocean-blue: #1e88e5;
+    --sunset-orange: #ff9500;
+    --fish-silver: #c5d3e8;
+    --seaweed-green: #43a047;
+    --coral-pink: #ff7675;
+    --yaizu-bright: #87ceeb;
+    --yaizu-yellow: #ffd700;
+    --yaizu-coral: #ff8c69;
+    --text-primary: #2c3e50;
+    --text-secondary: #34495e;
+    --text-tertiary: #7f8c8d;
+    --border-color: #bdc3c7;
+    --shadow-minimal: 0 2px 4px rgba(30, 136, 229, 0.1);
+    --shadow-soft: 0 4px 16px rgba(30, 136, 229, 0.15);
+    --shadow-elegant: 0 8px 32px rgba(30, 136, 229, 0.2);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --gradient-subtle: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    --gradient-elegant: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+    --gradient-ocean: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+    --gradient-sunset: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%);
+    --gradient-yaizu: linear-gradient(135deg, #87ceeb 0%, #ffd700 50%, #ff8c69 100%);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    color: var(--text-primary);
+    background: var(--gradient-elegant);
+    font-size: 16px;
+    font-weight: 400;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header */
+header {
+    background: var(--gradient-ocean);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem 0;
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--shadow-soft);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: var(--transition);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.01em;
+    font-feature-settings: 'kern' 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header .icon {
+    font-size: 1.8rem;
+}
+
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    padding: 5px;
+    gap: 4px;
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Navigation */
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+nav a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    position: relative;
+    overflow: hidden;
+}
+
+nav a.active {
+    background: var(--sunset-orange);
+    color: white;
+    font-weight: 600;
+    box-shadow: var(--shadow-minimal);
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Hero Section */
+.hero {
+    background: var(--gradient-yaizu);
+    color: var(--text-primary);
+    text-align: center;
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h2 {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8), 0 1px 4px rgba(255, 255, 255, 0.6);
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-primary);
+    font-weight: 500;
+    line-height: 1.6;
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-block;
+    background: var(--seaweed-green);
+    color: white;
+    padding: 16px 40px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    box-shadow: var(--shadow-elegant);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:hover {
+    background: #2e7d32;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(67, 160, 71, 0.4);
+}
+
+/* Sections */
+section {
+    padding: 80px 0;
+    position: relative;
+}
+
+section:nth-child(even) {
+    background: var(--secondary-color);
+}
+
+section:nth-child(odd) {
+    background: var(--primary-color);
+}
+
+section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+    color: var(--text-primary);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'kern' 1;
+    position: relative;
+}
+
+/* About Section */
+.about {
+    background: var(--primary-color);
+    position: relative;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-text h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+}
+
+.about-text p {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.about-text ul {
+    margin-left: 20px;
+    color: var(--text-secondary);
+}
+
+.about-text li {
+    margin-bottom: 0.5rem;
+}
+
+.about-image {
+    text-align: center;
+}
+
+.bird-placeholder {
+    font-size: 6rem;
+    background: var(--gradient-subtle);
+    border: 1px solid rgba(210, 210, 215, 0.3);
+    border-radius: 50%;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+}
+
+/* Activities Section */
+.activities {
+    background: var(--secondary-color);
+    position: relative;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.activity-card {
+    background: var(--primary-color);
+    padding: 32px;
+    border: 1px solid rgba(210, 210, 215, 0.3);
+    border-radius: 16px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-minimal);
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-card:hover {
+    box-shadow: var(--shadow-elegant);
+    transform: translateY(-4px);
+    border-color: rgba(0, 102, 204, 0.2);
+}
+
+.activity-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+}
+
+.activity-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Gallery Section */
+.gallery {
+    background: var(--primary-color);
+    position: relative;
+}
+
+.gallery-preview {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.gallery-preview p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.gallery-link {
+    display: inline-block;
+    background: var(--accent-color);
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    font-size: 1rem;
+}
+
+.gallery-link:hover {
+    background: #004799;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Photo Upload Section */
+.upload-section {
+    margin-bottom: 60px;
+}
+
+.upload-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-minimal);
+}
+
+.upload-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: center;
+}
+
+.upload-card > p {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+}
+
+.file-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 24px;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--primary-color);
+}
+
+.file-upload-area:hover,
+.file-upload-area.drag-over {
+    border-color: var(--accent-color);
+    background: var(--tertiary-color);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.file-upload-area p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--primary-color);
+    color: var(--text-primary);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+.upload-btn {
+    width: 100%;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.upload-btn:hover {
+    background: #004799;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Photos Section */
+.photos-section {
+    margin-top: 60px;
+}
+
+.photos-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    font-weight: 400;
+    text-align: center;
+}
+
+.no-photos {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+.no-photos-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-photos p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Uploaded Photo Styles */
+.bird-photo-uploaded {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    height: 240px;
+    margin-bottom: 1rem;
+}
+
+.bird-photo-uploaded img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.bird-photo-uploaded:hover .photo-overlay {
+    opacity: 1;
+}
+
+.delete-btn {
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    background: #dc3545;
+    transform: scale(1.1);
+}
+
+.photo-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.photo-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.photo-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+}
+
+.photographer {
+    font-weight: 500;
+}
+
+.upload-date {
+    opacity: 0.8;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-4px);
+}
+
+.gallery-item:hover .bird-photo {
+    box-shadow: var(--shadow-soft);
+    transform: scale(1.02);
+}
+
+.bird-photo {
+    font-size: 4rem;
+    background: var(--gradient-subtle);
+    border: 1px solid rgba(210, 210, 215, 0.3);
+    border-radius: 16px;
+    width: 100%;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-minimal);
+}
+
+.gallery-item p {
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Schedule Section */
+.schedule {
+    background: var(--primary-color);
+}
+
+.schedule-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.schedule-item {
+    background: var(--primary-color);
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+    display: grid;
+    grid-template-columns: 150px 1fr 100px;
+    gap: 20px;
+    align-items: center;
+}
+
+.schedule-item .date {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.schedule-item .activity {
+    color: var(--text-primary);
+}
+
+.schedule-item .time {
+    text-align: right;
+    color: var(--text-secondary);
+}
+
+/* Members Section */
+.members {
+    background: var(--secondary-color);
+}
+
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.member-card {
+    background: var(--primary-color);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.member-avatar {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.member-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.member-card p {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* Contact Section */
+.contact {
+    background: var(--primary-color);
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.contact-item {
+    background: var(--primary-color);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    box-shadow: var(--shadow-light);
+    transform: translateY(-2px);
+}
+
+.contact-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.contact-item p {
+    color: var(--text-secondary);
+}
+
+/* Footer */
+footer {
+    background: var(--gradient-ocean);
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    padding: 60px 0;
+    border-top: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-top: 80px;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+}
+
+/* Page Hero Section */
+.page-hero {
+    background: var(--primary-color);
+    color: var(--text-primary);
+    text-align: center;
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+}
+
+.page-hero p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+/* Records Section */
+.records {
+    background: var(--secondary-color);
+}
+
+.records-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.record-card {
+    background: var(--primary-color);
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.record-card:hover {
+    box-shadow: var(--shadow-light);
+    transform: translateY(-2px);
+}
+
+.record-date {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.record-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.record-card p {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.record-highlights {
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.highlight {
+    background: var(--text-primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.record-note {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Birds Section */
+.birds {
+    background: var(--primary-color);
+}
+
+.birds-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+.summary-card {
+    background: var(--text-primary);
+    color: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+.summary-card h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.big-number {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.summary-card p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.birds-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.category {
+    background: var(--secondary-color);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--text-primary);
+}
+
+.category h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.bird-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.bird-name {
+    background: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.bird-name:hover {
+    background: var(--text-primary);
+    color: white;
+}
+
+.bird-list.rare .bird-name {
+    background: var(--text-primary);
+    color: white;
+    font-weight: 600;
+}
+
+/* Category tabs for bird observation records */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.category-tab {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    padding: 12px 24px;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.category-tab.active {
+    background: var(--ocean-blue);
+    color: white;
+    border-color: var(--ocean-blue);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+}
+
+.category-tab:hover {
+    background: var(--tertiary-color);
+    border-color: var(--ocean-blue);
+    transform: translateY(-1px);
+}
+
+/* Bird cards grid */
+.birds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.bird-card {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.bird-card.show {
+    display: block;
+}
+
+.bird-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.bird-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.bird-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.frequency {
+    color: #fbbf24;
+    font-size: 1rem;
+}
+
+.bird-info {
+    margin-bottom: 16px;
+}
+
+.bird-info p {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.bird-notes {
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* Seasonal migration section */
+.seasonal-migration {
+    background: var(--secondary-color);
+    padding: 60px 0;
+}
+
+.seasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.season-card {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.season-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.season-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.migration-birds {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bird-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.bird-item:last-child {
+    border-bottom: none;
+}
+
+.bird-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.peak-time {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    font-weight: 400;
+}
+
+/* Observation spots section */
+.observation-spots {
+    background: var(--primary-color);
+    padding: 60px 0;
+}
+
+.spots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.spot-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.spot-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.spot-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.spot-highlights h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.spot-highlights p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Quiz Section */
+.quiz {
+    background: var(--secondary-color);
+}
+
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    border: 1px solid var(--border-color);
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.quiz-header h3 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.quiz-header p {
+    color: var(--text-secondary);
+}
+
+.quiz-question {
+    margin-bottom: 25px;
+}
+
+.quiz-question h4 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.quiz-question p {
+    color: var(--text-secondary);
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.option-btn {
+    background: var(--primary-color);
+    border: 2px solid var(--border-color);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.option-btn:hover {
+    background: var(--secondary-color);
+    border-color: var(--text-primary);
+}
+
+.option-btn.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.option-btn.incorrect {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.quiz-result {
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+}
+
+.result-explanation h4 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.result-explanation p {
+    color: var(--text-secondary);
+}
+
+.final-results {
+    text-align: center;
+    padding: 20px;
+}
+
+.final-results h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.score-circle {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.score-percentage {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.score-detail {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.result-message {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.quiz-buttons {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.quiz-btn {
+    background: var(--sunset-orange);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.quiz-btn:hover {
+    background: #e6850e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 149, 0, 0.4);
+}
+
+.quiz-stats {
+    display: flex;
+    justify-content: space-around;
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Quiz tips section */
+.quiz-tips {
+    background: var(--primary-color);
+    padding: 60px 0;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.tip-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.tip-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.tip-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
+
+.tip-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.tip-card p, .tip-card ul {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.tip-card ul {
+    text-align: left;
+    margin-left: 20px;
+}
+
+.tip-card li {
+    margin-bottom: 8px;
+}
+
+/* Games Section */
+.games {
+    background: var(--primary-color);
+}
+
+.games-intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.games-intro p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.game-card {
+    background: var(--primary-color);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.game-card:hover {
+    box-shadow: var(--shadow-light);
+    transform: translateY(-2px);
+}
+
+.game-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.game-card p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.game-btn {
+    background: var(--text-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.game-btn:hover {
+    background: var(--text-secondary);
+    transform: translateY(-2px);
+}
+
+.game-container {
+    background: var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    margin-top: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.game-header h3 {
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.game-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.game-stats span {
+    background: var(--primary-color);
+    padding: 8px 15px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+}
+
+.game-controls {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.game-controls .game-btn {
+    margin: 0 10px;
+}
+
+/* Memory game specific styles */
+.memory-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto 25px;
+}
+
+.memory-card {
+    aspect-ratio: 1;
+    background: var(--primary-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.memory-card:hover {
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.memory-card.flipped {
+    background: var(--secondary-color);
+    border-color: var(--accent-color);
+}
+
+.memory-card.matched {
+    background: #d4edda;
+    border-color: #28a745;
+    pointer-events: none;
+}
+
+/* Sound quiz specific styles */
+.sound-quiz-content {
+    margin-bottom: 25px;
+}
+
+.sound-question {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sound-description {
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin: 15px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.sound-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Schedule page specific styles */
+.annual-calendar {
+    background: var(--secondary-color);
+    padding: 60px 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.month-card {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.month-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.month-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.month-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.month-card li {
+    padding: 8px 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.month-card li:last-child {
+    border-bottom: none;
+}
+
+/* Activities page specific styles */
+.activity-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.activity-details p {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.activity-details strong {
+    color: var(--text-primary);
+}
+
+/* Observation spots styles */
+.spot-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.feature {
+    background: var(--accent-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+/* タブレット用 */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        text-align: center;
+    }
+    
+    .bird-photo-frame {
+        width: 400px;
+        height: 280px;
+    }
+    
+    .hero h2 {
+        font-size: 3rem;
+    }
+    
+    .activity-grid,
+    .gallery-grid,
+    .birds-grid,
+    .seasons-grid,
+    .spots-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+/* スマホ用 */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    nav {
+        display: none;
+        width: 100%;
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+    }
+    
+    nav.mobile-menu-open {
+        display: block;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    nav a {
+        padding: 15px 20px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--text-primary);
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    
+    nav a:hover, nav a.active {
+        background: var(--ocean-blue);
+        color: white;
+    }
+    
+    .hero {
+        padding: 80px 0;
+    }
+    
+    .hero h2 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+    
+    section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2.5rem;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .bird-photo-frame {
+        width: 100%;
+        max-width: 350px;
+        height: 240px;
+        margin: 0 auto;
+    }
+    
+    .activity-grid,
+    .gallery-grid,
+    .birds-grid,
+    .seasons-grid,
+    .spots-grid,
+    .games-grid,
+    .tips-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .activity-card,
+    .game-card,
+    .quiz-container,
+    .tip-card,
+    .bird-card,
+    .record-card {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .schedule-item {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        text-align: left;
+        padding: 15px;
+    }
+    
+    .quiz-options,
+    .sound-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .option-btn,
+    .sound-option {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .game-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .memory-board {
+        max-width: 280px;
+        gap: 8px;
+    }
+    
+    .container {
+        padding: 0 16px;
+    }
+    
+    .photos-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .photo-item {
+        margin-bottom: 20px;
+    }
+    
+    .cta-button {
+        padding: 14px 30px;
+        font-size: 0.9rem;
+    }
+    
+    .user-info {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-bottom: 20px;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .slide-controls {
+        bottom: 10px;
+    }
+    
+    .slide-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+    
+    .indicator {
+        width: 6px;
+        height: 6px;
+    }
+}
+
+/* 小さなスマホ用 */
+@media (max-width: 480px) {
+    header {
+        padding: 1rem 0;
+    }
+    
+    header h1 {
+        font-size: 1.2rem;
+        gap: 8px;
+    }
+    
+    header .icon {
+        font-size: 1.5rem;
+    }
+    
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero p {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    section {
+        padding: 40px 0;
+    }
+    
+    section h2 {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+    }
+    
+    .bird-photo-frame {
+        width: 100%;
+        max-width: 280px;
+        height: 200px;
+    }
+    
+    .activity-card,
+    .game-card,
+    .quiz-container,
+    .tip-card,
+    .bird-card,
+    .record-card {
+        padding: 16px;
+    }
+    
+    .container {
+        padding: 0 12px;
+    }
+    
+    .cta-button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .login-card {
+        padding: 25px 20px;
+        margin: 10px;
+    }
+    
+    .memory-board {
+        max-width: 240px;
+        gap: 6px;
+    }
+    
+    .memory-card {
+        font-size: 1.5rem;
+    }
+    
+    .quiz-btn,
+    .game-btn,
+    .upload-btn,
+    #addBirdBtn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* 横向きスマホ用 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .bird-photo-frame {
+        width: 100%;
+        max-width: 400px;
+        height: 220px;
+    }
+    
+    section {
+        padding: 50px 0;
+    }
+}
+
+/* Photo upload styles */
+.upload-form {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-minimal);
+}
+
+.file-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.file-upload-area:hover,
+.file-upload-area.drag-over {
+    border-color: var(--accent-color);
+    background: var(--tertiary-color);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.file-upload-area p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--primary-color);
+    color: var(--text-primary);
+    transition: var(--transition);
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+#uploadBtn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+#uploadBtn:hover {
+    background: #0052a3;
+    transform: translateY(-1px);
+}
+
+.photos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.photo-item {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow-minimal);
+}
+
+.photo-item:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.photo-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.photo-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.photo-info {
+    padding: 20px;
+}
+
+.photo-info h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.photo-info p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.photo-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.photo-meta span {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+}
+
+.delete-photo-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.delete-photo-btn:hover {
+    background: #c82333;
+}
+
+.no-photos {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 40px 20px;
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .upload-form {
+        padding: 20px;
+    }
+    
+    .file-upload-area {
+        padding: 30px 15px;
+    }
+    
+    .photos-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .photo-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Bird records styles */
+.add-bird-form {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-minimal);
+}
+
+.add-bird-form h3 {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.add-bird-form select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--primary-color);
+    color: var(--text-primary);
+    transition: var(--transition);
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.add-bird-form select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+#addBirdBtn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+#addBirdBtn:hover {
+    background: #0052a3;
+    transform: translateY(-1px);
+}
+
+.bird-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.edit-bird-btn,
+.delete-bird-btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: 5px;
+}
+
+.edit-bird-btn {
+    background: var(--coral-pink);
+    color: white;
+}
+
+.edit-bird-btn:hover {
+    background: #fd6c6c;
+}
+
+.delete-bird-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.delete-bird-btn:hover {
+    background: #c82333;
+}
+
+.no-birds {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 40px 20px;
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .add-bird-form {
+        padding: 20px;
+    }
+    
+    .bird-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .edit-bird-btn,
+    .delete-bird-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Login page styles */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-yaizu);
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-elegant);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-header {
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.login-form {
+    margin-bottom: 30px;
+}
+
+.login-form .form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--primary-color);
+    color: var(--text-primary);
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: var(--ocean-blue);
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+}
+
+.login-btn {
+    width: 100%;
+    background: var(--ocean-blue);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+}
+
+.login-btn:hover {
+    background: #1565c0;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(30, 136, 229, 0.4);
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    border: 1px solid #ffcdd2;
+}
+
+.login-info {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.login-info p {
+    margin-bottom: 8px;
+}
+
+/* User info and logout */
+.user-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+}
+
+.logout-btn {
+    background: var(--coral-pink);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background: #fd6c6c;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .login-card {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .user-info {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+}
+
+/* Bird photo frame styles */
+.bird-photo-frame {
+    width: 500px;
+    height: 360px;
+    background: var(--primary-color);
+    border: 3px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+
+.bird-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--tertiary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    margin: 4px;
+    height: calc(100% - 8px);
+}
+
+.bird-photo-placeholder .photo-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    opacity: 0.7;
+}
+
+.bird-photo-placeholder p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.bird-photo-frame:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elegant);
+}
+
+.bird-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.photo-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    padding: 20px 15px 15px;
+    border-radius: 0 0 8px 8px;
+}
+
+.photo-caption p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.photo-caption span {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Slideshow styles */
+.photo-slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.slide-btn {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.slide-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.slide-indicators {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.indicator.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* スライドが1枚の場合はコントロールを非表示 */
+.slide-controls:has(.slide-btn[style*="display: none"]) .slide-indicators {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .bird-photo-frame {
+        width: 200px;
+        height: 140px;
+    }
+    
+    .bird-photo-placeholder .photo-icon {
+        font-size: 2rem;
+    }
+    
+    .bird-photo-placeholder p {
+        font-size: 0.8rem;
+    }
+}

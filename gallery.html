@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>写真ギャラリー - 焼津市役所BIRDERクラブ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="icon">🦅</i>焼津市役所BIRDERクラブ</h1>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="gallery.html" class="active">写真ギャラリー</a></li>
+                    <li><a href="records.html">活動記録</a></li>
+                    <li><a href="birds.html">観察記録</a></li>
+                    <li><a href="quiz.html">鳥クイズ</a></li>
+                    <li><a href="games.html">ミニゲーム</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>📸 写真ギャラリー</h1>
+                <p>メンバーが撮影した野鳥たちをご紹介します</p>
+            </div>
+        </section>
+
+        <section class="gallery">
+            <div class="container">
+                <h2>写真投稿</h2>
+                <div class="upload-form">
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <div class="upload-icon">📁</div>
+                        <p>クリックして写真を選択、またはドラッグ&ドロップ</p>
+                        <input type="file" id="photoInput" accept="image/*" multiple style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label for="photoTitle">タイトル</label>
+                        <input type="text" id="photoTitle" placeholder="例：焼津港のカモメ">
+                    </div>
+                    <div class="form-group">
+                        <label for="photoDescription">説明</label>
+                        <textarea id="photoDescription" placeholder="撮影場所や状況について"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="photographerName">撮影者名（任意）</label>
+                        <input type="text" id="photographerName" placeholder="お名前">
+                    </div>
+                    <button id="uploadBtn" type="button" onclick="uploadPhoto()">写真を投稿</button>
+                </div>
+
+                <h2>投稿された写真</h2>
+                <div class="photos-container" id="photosContainer">
+                    <p class="no-photos">まだ写真が投稿されていません。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 焼津市役所BIRDERクラブ All rights reserved.</p>
+            <p>野鳥を愛し、自然を守る仲間たち</p>
+        </div>
+    </footer>
+</body>
+</html>

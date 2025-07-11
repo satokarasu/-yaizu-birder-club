@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ミニゲーム - 焼津市役所BIRDERクラブ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="icon">🦅</i>焼津市役所BIRDERクラブ</h1>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="gallery.html">写真ギャラリー</a></li>
+                    <li><a href="records.html">活動記録</a></li>
+                    <li><a href="birds.html">観察記録</a></li>
+                    <li><a href="quiz.html">鳥クイズ</a></li>
+                    <li><a href="games.html" class="active">ミニゲーム</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>🎮 ミニゲーム</h1>
+                <p>楽しいゲームで野鳥の知識を深めましょう！</p>
+            </div>
+        </section>
+
+        <section class="games">
+            <div class="container">
+                <div class="games-intro">
+                    <p>楽しいゲームで野鳥の知識を深めましょう！</p>
+                </div>
+                
+                <div class="games-grid">
+                    <div class="game-card">
+                        <h3>🧠 バードメモリーゲーム</h3>
+                        <p>鳥の絵柄を記憶してペアを見つけるゲームです。集中力と記憶力が勝負！</p>
+                        <button class="game-btn" onclick="startMemoryGame()">ゲームを始める</button>
+                    </div>
+                    
+                    <div class="game-card">
+                        <h3>🎵 鳴き声クイズ</h3>
+                        <p>鳥の鳴き声の特徴から正しい鳥を当てるゲームです。耳を澄ませて挑戦！</p>
+                        <button class="game-btn" onclick="startSoundQuiz()">ゲームを始める</button>
+                    </div>
+                </div>
+
+                <!-- Memory Game -->
+                <div id="memory-game" class="game-container" style="display: none;">
+                    <div class="game-header">
+                        <h3>バードメモリーゲーム</h3>
+                        <div class="game-stats">
+                            <span>時間: <span id="timer">0</span>秒</span>
+                            <span>手数: <span id="moves">0</span>回</span>
+                            <span>ペア: <span id="pairs">0</span>/8</span>
+                        </div>
+                    </div>
+                    <div class="memory-board" id="memory-board">
+                        <!-- カードは動的に生成 -->
+                    </div>
+                    <div class="game-controls">
+                        <button class="game-btn" onclick="resetMemoryGame()">リセット</button>
+                        <button class="game-btn" onclick="closeMemoryGame()">終了</button>
+                    </div>
+                </div>
+
+                <!-- Sound Quiz Game -->
+                <div id="sound-quiz" class="game-container" style="display: none;">
+                    <div class="game-header">
+                        <h3>鳴き声クイズ</h3>
+                        <div class="game-stats">
+                            <span>問題: <span id="sound-question-num">1</span>/5</span>
+                            <span>正解: <span id="sound-correct">0</span>問</span>
+                        </div>
+                    </div>
+                    <div class="sound-quiz-content">
+                        <div class="sound-question" id="sound-question">
+                            <h4>この鳥の鳴き声の特徴は？</h4>
+                            <div class="sound-description" id="sound-description">
+                                <!-- 音の説明が表示される -->
+                            </div>
+                        </div>
+                        <div class="sound-options" id="sound-options">
+                            <!-- 選択肢が表示される -->
+                        </div>
+                        <div class="sound-result" id="sound-result" style="display: none;">
+                            <!-- 結果が表示される -->
+                        </div>
+                    </div>
+                    <div class="game-controls">
+                        <button class="game-btn" id="sound-next" onclick="nextSoundQuestion()" style="display: none;">次の問題</button>
+                        <button class="game-btn" onclick="closeSoundQuiz()">終了</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="game-tips">
+            <div class="container">
+                <h2>ゲームのコツ</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon">🧠</div>
+                        <h3>メモリーゲーム</h3>
+                        <ul>
+                            <li>端から順番にめくって位置を覚える</li>
+                            <li>同じ絵柄が出たらすぐにメモする</li>
+                            <li>集中して一気にクリアを目指す</li>
+                        </ul>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🎵</div>
+                        <h3>鳴き声クイズ</h3>
+                        <ul>
+                            <li>鳴き声の特徴をよく読む</li>
+                            <li>生息環境も重要なヒント</li>
+                            <li>実際の観察会での経験を思い出す</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 焼津市役所BIRDERクラブ All rights reserved.</p>
+            <p>野鳥を愛し、自然を守る仲間たち</p>
+        </div>
+    </footer>
+</body>
+</html>
