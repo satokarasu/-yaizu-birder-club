@@ -42,16 +42,17 @@
             <div class="container">
                 <h2>鳥類観察記録</h2>
                 
-                <!-- 鳥の記録追加フォーム -->
+                <!-- 観察記録追加フォーム -->
                 <div class="add-bird-form">
-                    <h3>新しい観察記録を追加</h3>
+                    <h3>🐦 新しい観察記録を追加</h3>
                     <div class="form-group">
                         <label for="birdName">鳥の名前</label>
-                        <input type="text" id="birdName" placeholder="例：ヤマガラ">
+                        <input type="text" id="birdName" placeholder="例：ヤマガラ" required>
                     </div>
                     <div class="form-group">
                         <label for="birdCategory">生息環境</label>
-                        <select id="birdCategory">
+                        <select id="birdCategory" required>
+                            <option value="">選択してください</option>
                             <option value="sea">海鳥</option>
                             <option value="river">水鳥</option>
                             <option value="mountain">山鳥</option>
@@ -64,7 +65,11 @@
                     </div>
                     <div class="form-group">
                         <label for="observationLocation">観察地</label>
-                        <input type="text" id="observationLocation" placeholder="例：高草山、焼津港">
+                        <input type="text" id="observationLocation" placeholder="例：高草山、焼津港" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="observationDate">観察日時</label>
+                        <input type="datetime-local" id="observationDate">
                     </div>
                     <div class="form-group">
                         <label for="observationSeason">観察時期</label>
@@ -79,10 +84,19 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="observationNotes">観察メモ</label>
-                        <textarea id="observationNotes" placeholder="特徴や行動の詳細など"></textarea>
+                        <label for="birdCount">個体数</label>
+                        <input type="number" id="birdCount" placeholder="例：5" min="1">
                     </div>
-                    <button id="addBirdBtn" type="button" onclick="addBirdRecord()">記録を追加</button>
+                    <div class="form-group">
+                        <label for="observationNotes">観察メモ</label>
+                        <textarea id="observationNotes" placeholder="特徴や行動の詳細など" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="birdPhotos">写真（複数選択可能）</label>
+                        <input type="file" id="birdPhotos" accept="image/*" multiple>
+                        <small>※ 観察した鳥の写真があれば追加してください</small>
+                    </div>
+                    <button id="addBirdBtn" type="button" onclick="addBirdRecord()">🐦 記録を追加</button>
                 </div>
                 <div class="category-tabs">
                     <button class="category-tab active" data-category="all">すべて</button>

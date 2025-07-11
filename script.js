@@ -706,6 +706,7 @@ function addActivityRecord() {
     const participants = document.getElementById('recordParticipants').value;
     const birds = document.getElementById('recordBirds').value;
     const notes = document.getElementById('recordNotes').value;
+    const photosInput = document.getElementById('recordPhotos');
     
     if (!date || !location || !title) {
         alert('活動日、場所、活動内容は必須項目です。');
@@ -713,15 +714,41 @@ function addActivityRecord() {
     }
     
     const recordData = {
+        id: 'record_' + Date.now(),
         date: date,
         location: location,
         title: title,
         participants: participants || 0,
         birds: birds,
         notes: notes,
+        photos: [],
         timestamp: new Date().toISOString()
     };
     
+    // 写真を処理
+    if (photosInput.files.length > 0) {
+        Array.from(photosInput.files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                recordData.photos.push({
+                    name: file.name,
+                    data: e.target.result,
+                    size: file.size
+                });
+                
+                // 最後の写真が読み込まれたら保存
+                if (recordData.photos.length === photosInput.files.length) {
+                    saveActivityRecord(recordData);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    } else {
+        saveActivityRecord(recordData);
+    }
+}
+
+function saveActivityRecord(recordData) {
     // LocalStorageに保存
     let savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
     savedRecords.push(recordData);
@@ -734,11 +761,12 @@ function addActivityRecord() {
     document.getElementById('recordParticipants').value = '';
     document.getElementById('recordBirds').value = '';
     document.getElementById('recordNotes').value = '';
+    document.getElementById('recordPhotos').value = '';
     
     // 記録を表示
     displayActivityRecords();
     
-    alert('活動記録が追加されました！');
+    showNotification('活動記録が追加されました！');
 }
 
 function displayActivityRecords() {
@@ -757,6 +785,23 @@ function displayActivityRecords() {
     savedRecords.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach((record, index) => {
         const recordCard = document.createElement('div');
         recordCard.className = 'record-card';
+        
+        let photosHtml = '';
+        if (record.photos && record.photos.length > 0) {
+            photosHtml = `
+                <div class="record-photos">
+                    <h4>📸 活動写真</h4>
+                    <div class="photos-grid">
+                        ${record.photos.map((photo, photoIndex) => `
+                            <div class="photo-thumbnail" onclick="openPhotoModal('${photo.data}', '${photo.name}')">
+                                <img src="${photo.data}" alt="${photo.name}" />
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
         recordCard.innerHTML = `
             <div class="record-header">
                 <h3>${record.title}</h3>
@@ -767,6 +812,7 @@ function displayActivityRecords() {
                 <p><strong>参加者:</strong> ${record.participants}名</p>
                 ${record.birds ? `<p><strong>観察した鳥:</strong> ${record.birds}</p>` : ''}
                 ${record.notes ? `<p><strong>詳細・感想:</strong> ${record.notes}</p>` : ''}
+                ${photosHtml}
             </div>
             <div class="record-actions">
                 <button class="delete-btn" onclick="deleteActivityRecord(${index})">削除</button>
@@ -788,7 +834,737 @@ function deleteActivityRecord(index) {
 // ページ読み込み時に記録を表示
 document.addEventListener('DOMContentLoaded', function() {
     displayActivityRecords();
+    displayPhotos();
+    displayBirdRecords();
+    
+    // 写真アップロード機能を設定
+    setupPhotoUpload();
 });
+
+// Google フォーム投稿の手動追加
+function addGoogleFormPhoto() {
+    const imageUrl = document.getElementById('googleImageUrl').value;
+    const title = document.getElementById('googlePhotoTitle').value;
+    const description = document.getElementById('googlePhotoDescription').value;
+    const photographer = document.getElementById('googlePhotographer').value;
+    
+    if (!imageUrl || !title) {
+        alert('画像URLとタイトルは必須です。');
+        return;
+    }
+    
+    // Google Drive URLを表示用に変換
+    let displayUrl = imageUrl;
+    if (imageUrl.includes('drive.google.com')) {
+        const fileId = imageUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
+        if (fileId) {
+            displayUrl = `https://drive.google.com/thumbnail?id=${fileId[1]}&sz=w800`;
+        }
+    }
+    
+    const photoData = {
+        url: displayUrl,
+        title: title,
+        description: description,
+        photographer: photographer,
+        timestamp: new Date().toISOString(),
+        source: 'googleForm'
+    };
+    
+    // LocalStorageに保存
+    let savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+    savedPhotos.push(photoData);
+    localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
+    
+    // フォームをリセット
+    document.getElementById('googleImageUrl').value = '';
+    document.getElementById('googlePhotoTitle').value = '';
+    document.getElementById('googlePhotoDescription').value = '';
+    document.getElementById('googlePhotographer').value = '';
+    
+    // 写真を表示
+    displayPhotos();
+    
+    alert('写真がサイトに追加されました！');
+}
+
+// 写真を表示
+function displayPhotos() {
+    const photosContainer = document.getElementById('photosContainer');
+    if (!photosContainer) return;
+    
+    const savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+    
+    if (savedPhotos.length === 0) {
+        photosContainer.innerHTML = '<p class="no-photos">まだ写真が投稿されていません。</p>';
+        return;
+    }
+    
+    photosContainer.innerHTML = '';
+    
+    savedPhotos.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach((photo, index) => {
+        const photoCard = document.createElement('div');
+        photoCard.className = 'photo-card';
+        photoCard.innerHTML = `
+            <div class="photo-image">
+                <img src="${photo.url}" alt="${photo.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjVmNWY1Ii8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5OSI+5Zu+5YOP44GM6Kqt44G/6L6844KB44G+44Gb44GXPC90ZXh0Pgo8L3N2Zz4='">
+            </div>
+            <div class="photo-info">
+                <h3>${photo.title}</h3>
+                ${photo.description ? `<p class="photo-description">${photo.description}</p>` : ''}
+                <div class="photo-meta">
+                    <span class="photographer">${photo.photographer || '投稿者不明'}</span>
+                    <span class="upload-date">${new Date(photo.timestamp).toLocaleDateString('ja-JP')}</span>
+                </div>
+            </div>
+            <div class="photo-actions">
+                <button class="delete-btn" onclick="deletePhoto(${index})">削除</button>
+            </div>
+        `;
+        photosContainer.appendChild(photoCard);
+    });
+}
+
+// 写真を削除
+function deletePhoto(index) {
+    if (confirm('この写真を削除してもよろしいですか？')) {
+        let savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+        savedPhotos.splice(index, 1);
+        localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
+        displayPhotos();
+    }
+}
+
+// 自動チェック機能
+let autoCheckInterval;
+
+function startAutoCheck() {
+    // 5分ごとにチェック
+    autoCheckInterval = setInterval(checkForNewPhotos, 300000);
+    
+    // 初回チェック
+    checkForNewPhotos();
+}
+
+function stopAutoCheck() {
+    if (autoCheckInterval) {
+        clearInterval(autoCheckInterval);
+    }
+}
+
+// スプレッドシートから自動取得
+async function fetchFromSpreadsheet() {
+    const statusDiv = document.getElementById('fetchStatus');
+    statusDiv.innerHTML = '📡 取得中...';
+    
+    try {
+        // Google Sheets APIを使用してスプレッドシートから取得
+        const spreadsheetId = '1TVZWV0lYFxxaj9gIjiP9gxlh5RNy9QbgQgqmLK3Dv-g'; // フォームのスプレッドシートID
+        const range = 'A:E'; // A列からE列まで
+        const apiKey = 'YOUR_API_KEY_HERE'; // ここにAPIキーを入力
+        
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.values) {
+            const headers = data.values[0];
+            const rows = data.values.slice(1);
+            
+            let newPhotosCount = 0;
+            const savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+            const existingTimestamps = savedPhotos.map(p => p.timestamp);
+            
+            rows.forEach((row, index) => {
+                if (row.length >= 4) {
+                    const timestamp = new Date(row[0]).toISOString();
+                    
+                    if (!existingTimestamps.includes(timestamp)) {
+                        const imageFiles = row[4] || '';
+                        let imageUrl = '';
+                        
+                        if (imageFiles) {
+                            const fileId = extractFileIdFromUrl(imageFiles);
+                            if (fileId) {
+                                imageUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
+                            }
+                        }
+                        
+                        const photoData = {
+                            url: imageUrl,
+                            title: row[1] || '無題',
+                            description: row[2] || '',
+                            photographer: row[3] || '投稿者不明',
+                            timestamp: timestamp,
+                            source: 'googleForm'
+                        };
+                        
+                        savedPhotos.push(photoData);
+                        newPhotosCount++;
+                    }
+                }
+            });
+            
+            if (newPhotosCount > 0) {
+                localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
+                displayPhotos();
+                statusDiv.innerHTML = `✅ ${newPhotosCount}件の新しい写真を取得しました！`;
+                showNotification(`${newPhotosCount}件の新しい写真が追加されました！`);
+            } else {
+                statusDiv.innerHTML = '📄 新しい写真はありません';
+            }
+        } else {
+            statusDiv.innerHTML = '❌ データが見つかりません';
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        statusDiv.innerHTML = '❌ 取得に失敗しました。APIキーを確認してください。';
+    }
+    
+    // 5秒後にステータスをクリア
+    setTimeout(() => {
+        statusDiv.innerHTML = '';
+    }, 5000);
+}
+
+function extractFileIdFromUrl(url) {
+    if (!url) return null;
+    
+    const patterns = [
+        /\/d\/([a-zA-Z0-9-_]+)/,
+        /id=([a-zA-Z0-9-_]+)/,
+        /file\/d\/([a-zA-Z0-9-_]+)/
+    ];
+    
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) {
+            return match[1];
+        }
+    }
+    
+    return null;
+}
+
+// 新しい写真をチェック（定期実行用）
+async function checkForNewPhotos() {
+    await fetchFromSpreadsheet();
+}
+
+// 通知表示
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--seaweed-green);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        z-index: 1000;
+        font-weight: 600;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // 3秒後に削除
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// PostMessage受信（webhook.htmlから）
+window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'photoAdded') {
+        displayPhotos();
+        showNotification('新しい写真が追加されました！');
+    }
+});
+
+// CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// フォームリンクの設定
+function setupFormLinks() {
+    // フォームURLs（実際のフォームを作成後に更新）
+    const formUrls = {
+        photos: 'https://docs.google.com/forms/d/e/1FAIpQLSdrektwIDfetljw0PHkbriutwehKfrRRJye8B5AVHpq1lIe0A/viewform',
+        activities: '#', // 活動記録フォームURL（作成後に設定）
+        birds: '#'      // 観察記録フォームURL（作成後に設定）
+    };
+    
+    // フォームリンクを設定
+    const activityFormLink = document.getElementById('activityFormLink');
+    const birdFormLink = document.getElementById('birdFormLink');
+    
+    if (activityFormLink) {
+        activityFormLink.href = formUrls.activities;
+    }
+    if (birdFormLink) {
+        birdFormLink.href = formUrls.birds;
+    }
+}
+
+// 活動記録の自動取得
+async function fetchActivityRecords() {
+    const statusDiv = document.getElementById('activityFetchStatus');
+    statusDiv.innerHTML = '📡 取得中...';
+    
+    try {
+        // スプレッドシートIDとAPIキー（実際の値に更新必要）
+        const spreadsheetId = 'ACTIVITY_SPREADSHEET_ID'; // 活動記録フォームのスプレッドシートID
+        const range = 'A:G'; // A列からG列まで
+        const apiKey = 'YOUR_API_KEY_HERE';
+        
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.values) {
+            const rows = data.values.slice(1); // ヘッダー行を除く
+            
+            let newRecordsCount = 0;
+            const savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
+            const existingTimestamps = savedRecords.map(r => r.timestamp);
+            
+            rows.forEach((row) => {
+                if (row.length >= 6) {
+                    const timestamp = new Date(row[0]).toISOString();
+                    
+                    if (!existingTimestamps.includes(timestamp)) {
+                        const recordData = {
+                            date: row[1] || '',
+                            location: row[2] || '',
+                            title: row[3] || '',
+                            participants: row[4] || 0,
+                            birds: row[5] || '',
+                            notes: row[6] || '',
+                            timestamp: timestamp,
+                            source: 'googleForm'
+                        };
+                        
+                        savedRecords.push(recordData);
+                        newRecordsCount++;
+                    }
+                }
+            });
+            
+            if (newRecordsCount > 0) {
+                localStorage.setItem('activityRecords', JSON.stringify(savedRecords));
+                displayActivityRecords();
+                statusDiv.innerHTML = `✅ ${newRecordsCount}件の新しい活動記録を取得しました！`;
+                showNotification(`${newRecordsCount}件の新しい活動記録が追加されました！`);
+            } else {
+                statusDiv.innerHTML = '📄 新しい活動記録はありません';
+            }
+        } else {
+            statusDiv.innerHTML = '❌ データが見つかりません';
+        }
+    } catch (error) {
+        console.error('Activity fetch error:', error);
+        statusDiv.innerHTML = '❌ 取得に失敗しました。設定を確認してください。';
+    }
+    
+    setTimeout(() => {
+        statusDiv.innerHTML = '';
+    }, 5000);
+}
+
+// 観察記録の自動取得
+async function fetchBirdRecords() {
+    const statusDiv = document.getElementById('birdFetchStatus');
+    statusDiv.innerHTML = '📡 取得中...';
+    
+    try {
+        const spreadsheetId = 'BIRD_SPREADSHEET_ID'; // 観察記録フォームのスプレッドシートID
+        const range = 'A:H';
+        const apiKey = 'YOUR_API_KEY_HERE';
+        
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.values) {
+            const rows = data.values.slice(1);
+            
+            let newBirdsCount = 0;
+            const savedBirds = JSON.parse(localStorage.getItem('birdRecords') || '[]');
+            const existingTimestamps = savedBirds.map(b => b.timestamp);
+            
+            rows.forEach((row) => {
+                if (row.length >= 7) {
+                    const timestamp = new Date(row[0]).toISOString();
+                    
+                    if (!existingTimestamps.includes(timestamp)) {
+                        const birdData = {
+                            name: row[1] || '',
+                            category: row[2] || '',
+                            scientificName: row[3] || '',
+                            location: row[4] || '',
+                            season: row[5] || '',
+                            frequency: row[6] || '',
+                            notes: row[7] || '',
+                            timestamp: timestamp,
+                            source: 'googleForm'
+                        };
+                        
+                        savedBirds.push(birdData);
+                        newBirdsCount++;
+                    }
+                }
+            });
+            
+            if (newBirdsCount > 0) {
+                localStorage.setItem('birdRecords', JSON.stringify(savedBirds));
+                displayBirdRecords();
+                statusDiv.innerHTML = `✅ ${newBirdsCount}件の新しい観察記録を取得しました！`;
+                showNotification(`${newBirdsCount}件の新しい観察記録が追加されました！`);
+            } else {
+                statusDiv.innerHTML = '📄 新しい観察記録はありません';
+            }
+        } else {
+            statusDiv.innerHTML = '❌ データが見つかりません';
+        }
+    } catch (error) {
+        console.error('Bird fetch error:', error);
+        statusDiv.innerHTML = '❌ 取得に失敗しました。設定を確認してください。';
+    }
+    
+    setTimeout(() => {
+        statusDiv.innerHTML = '';
+    }, 5000);
+}
+
+// 観察記録の表示
+function displayBirdRecords() {
+    const birdsGrid = document.getElementById('birdsGrid');
+    if (!birdsGrid) return;
+    
+    const savedBirds = JSON.parse(localStorage.getItem('birdRecords') || '[]');
+    
+    if (savedBirds.length === 0) {
+        birdsGrid.innerHTML = '<p class="no-birds">観察記録はメンバーが追加していきます。</p>';
+        return;
+    }
+    
+    birdsGrid.innerHTML = '';
+    
+    savedBirds.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach((bird, index) => {
+        const birdCard = document.createElement('div');
+        birdCard.className = `bird-card show ${bird.category || 'all'}`;
+        birdCard.innerHTML = `
+            <div class="bird-header">
+                <h3>${bird.name}</h3>
+                <span class="frequency">${bird.frequency}</span>
+            </div>
+            <div class="bird-info">
+                <p><strong>学名:</strong> ${bird.scientificName}</p>
+                <p><strong>観察地:</strong> ${bird.location}</p>
+                <p><strong>観察時期:</strong> ${bird.season}</p>
+                ${bird.notes ? `<p class="bird-notes">${bird.notes}</p>` : ''}
+            </div>
+            <div class="bird-actions">
+                <button class="delete-btn" onclick="deleteBirdRecord(${index})">削除</button>
+            </div>
+        `;
+        birdsGrid.appendChild(birdCard);
+    });
+}
+
+// 観察記録の削除
+function deleteBirdRecord(index) {
+    if (confirm('この観察記録を削除してもよろしいですか？')) {
+        let savedBirds = JSON.parse(localStorage.getItem('birdRecords') || '[]');
+        savedBirds.splice(index, 1);
+        localStorage.setItem('birdRecords', JSON.stringify(savedBirds));
+        displayBirdRecords();
+    }
+}
+
+// 自動チェック機能（活動記録）
+function startActivityAutoCheck() {
+    setInterval(fetchActivityRecords, 300000); // 5分ごと
+}
+
+// 自動チェック機能（観察記録）
+function startBirdAutoCheck() {
+    setInterval(fetchBirdRecords, 300000); // 5分ごと
+}
+
+// Photo Upload Functions
+function uploadPhotos() {
+    const filesInput = document.getElementById('photoFiles');
+    const title = document.getElementById('photoTitle').value;
+    const description = document.getElementById('photoDescription').value;
+    const photographer = document.getElementById('photographerName').value;
+    const shotDate = document.getElementById('shotDate').value;
+    
+    if (!filesInput.files.length || !title) {
+        alert('写真とタイトルは必須です。');
+        return;
+    }
+    
+    const photoData = {
+        id: 'photo_' + Date.now(),
+        title: title,
+        description: description,
+        photographer: photographer || '投稿者不明',
+        shotDate: shotDate,
+        photos: [],
+        timestamp: new Date().toISOString()
+    };
+    
+    // 複数写真を処理
+    Array.from(filesInput.files).forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            photoData.photos.push({
+                name: file.name,
+                data: e.target.result,
+                size: file.size
+            });
+            
+            // 最後の写真が読み込まれたら保存
+            if (photoData.photos.length === filesInput.files.length) {
+                savePhotoData(photoData);
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function savePhotoData(photoData) {
+    // LocalStorageに保存
+    let savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+    savedPhotos.push(photoData);
+    localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
+    
+    // フォームをリセット
+    document.getElementById('photoFiles').value = '';
+    document.getElementById('photoTitle').value = '';
+    document.getElementById('photoDescription').value = '';
+    document.getElementById('photographerName').value = '';
+    document.getElementById('shotDate').value = '';
+    clearPhotoPreview();
+    
+    // 写真を表示
+    displayPhotos();
+    
+    showNotification('写真が投稿されました！');
+}
+
+// Photo Upload Area Event Handlers
+function setupPhotoUpload() {
+    const uploadArea = document.getElementById('photoUploadArea');
+    const fileInput = document.getElementById('photoFiles');
+    
+    if (!uploadArea || !fileInput) return;
+    
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            showPhotoPreview(files);
+        }
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            showPhotoPreview(e.target.files);
+        }
+    });
+}
+
+function showPhotoPreview(files) {
+    const previewContainer = document.getElementById('photoPreview');
+    if (!previewContainer) return;
+    
+    previewContainer.innerHTML = '';
+    
+    Array.from(files).forEach((file, index) => {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'photo-preview-item';
+                previewDiv.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview">
+                    <div class="photo-preview-info">
+                        <span>${file.name}</span>
+                        <button type="button" onclick="removePhotoPreview(${index})" class="remove-btn">×</button>
+                    </div>
+                `;
+                previewContainer.appendChild(previewDiv);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+function clearPhotoPreview() {
+    const previewContainer = document.getElementById('photoPreview');
+    if (previewContainer) {
+        previewContainer.innerHTML = '';
+    }
+}
+
+function removePhotoPreview(index) {
+    const fileInput = document.getElementById('photoFiles');
+    const dt = new DataTransfer();
+    
+    Array.from(fileInput.files).forEach((file, i) => {
+        if (i !== index) {
+            dt.items.add(file);
+        }
+    });
+    
+    fileInput.files = dt.files;
+    showPhotoPreview(fileInput.files);
+}
+
+// Updated Bird Record Function
+function addBirdRecord() {
+    const name = document.getElementById('birdName').value;
+    const category = document.getElementById('birdCategory').value;
+    const scientificName = document.getElementById('scientificName').value;
+    const location = document.getElementById('observationLocation').value;
+    const observationDate = document.getElementById('observationDate').value;
+    const season = document.getElementById('observationSeason').value;
+    const frequency = document.getElementById('frequency').value;
+    const count = document.getElementById('birdCount').value;
+    const notes = document.getElementById('observationNotes').value;
+    const photosInput = document.getElementById('birdPhotos');
+    
+    if (!name || !category || !location) {
+        alert('鳥の名前、生息環境、観察地は必須項目です。');
+        return;
+    }
+    
+    const birdData = {
+        id: 'bird_' + Date.now(),
+        name: name,
+        category: category,
+        scientificName: scientificName,
+        location: location,
+        observationDate: observationDate,
+        season: season,
+        frequency: frequency,
+        count: count,
+        notes: notes,
+        photos: [],
+        timestamp: new Date().toISOString()
+    };
+    
+    // 写真を処理
+    if (photosInput.files.length > 0) {
+        Array.from(photosInput.files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                birdData.photos.push({
+                    name: file.name,
+                    data: e.target.result,
+                    size: file.size
+                });
+                
+                // 最後の写真が読み込まれたら保存
+                if (birdData.photos.length === photosInput.files.length) {
+                    saveBirdRecord(birdData);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    } else {
+        saveBirdRecord(birdData);
+    }
+}
+
+function saveBirdRecord(birdData) {
+    // LocalStorageに保存
+    let savedBirds = JSON.parse(localStorage.getItem('birdRecords') || '[]');
+    savedBirds.push(birdData);
+    localStorage.setItem('birdRecords', JSON.stringify(savedBirds));
+    
+    // フォームをリセット
+    document.getElementById('birdName').value = '';
+    document.getElementById('birdCategory').value = '';
+    document.getElementById('scientificName').value = '';
+    document.getElementById('observationLocation').value = '';
+    document.getElementById('observationDate').value = '';
+    document.getElementById('observationSeason').value = '';
+    document.getElementById('frequency').value = '★★★';
+    document.getElementById('birdCount').value = '';
+    document.getElementById('observationNotes').value = '';
+    document.getElementById('birdPhotos').value = '';
+    
+    // 記録を表示
+    displayBirdRecords();
+    
+    showNotification('観察記録が追加されました！');
+}
+
+// Photo Modal Functions
+function openPhotoModal(imageSrc, imageName) {
+    const modal = document.createElement('div');
+    modal.className = 'photo-modal';
+    modal.innerHTML = `
+        <div class="photo-modal-content">
+            <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+            <img src="${imageSrc}" alt="${imageName}">
+            <div class="photo-modal-info">
+                <h3>${imageName}</h3>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closePhotoModal();
+        }
+    });
+}
+
+function closePhotoModal() {
+    const modal = document.querySelector('.photo-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
 
 // Update record card display
 function updateRecordCard(card, data) {

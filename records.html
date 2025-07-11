@@ -43,18 +43,18 @@
                 
                 <!-- 活動記録追加フォーム -->
                 <div class="add-record-form">
-                    <h3>新しい活動記録を追加</h3>
+                    <h3>📝 新しい活動記録を追加</h3>
                     <div class="form-group">
                         <label for="recordDate">活動日</label>
-                        <input type="date" id="recordDate">
+                        <input type="date" id="recordDate" required>
                     </div>
                     <div class="form-group">
                         <label for="recordLocation">活動場所</label>
-                        <input type="text" id="recordLocation" placeholder="例：高草山、焼津港">
+                        <input type="text" id="recordLocation" placeholder="例：高草山、焼津港" required>
                     </div>
                     <div class="form-group">
                         <label for="recordTitle">活動内容</label>
-                        <input type="text" id="recordTitle" placeholder="例：春の探鳥会">
+                        <input type="text" id="recordTitle" placeholder="例：春の探鳥会" required>
                     </div>
                     <div class="form-group">
                         <label for="recordParticipants">参加者数</label>
@@ -62,13 +62,18 @@
                     </div>
                     <div class="form-group">
                         <label for="recordBirds">観察した鳥</label>
-                        <textarea id="recordBirds" placeholder="例：ヤマガラ、シジュウカラ、ウグイス、キビタキ"></textarea>
+                        <textarea id="recordBirds" placeholder="例：ヤマガラ、シジュウカラ、ウグイス、キビタキ" rows="3"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="recordNotes">詳細・感想</label>
-                        <textarea id="recordNotes" placeholder="天候、特記事項、参加者の感想など"></textarea>
+                        <textarea id="recordNotes" placeholder="天候、特記事項、参加者の感想など" rows="4"></textarea>
                     </div>
-                    <button id="addRecordBtn" type="button" onclick="addActivityRecord()">記録を追加</button>
+                    <div class="form-group">
+                        <label for="recordPhotos">写真（複数選択可能）</label>
+                        <input type="file" id="recordPhotos" accept="image/*" multiple>
+                        <small>※ 活動時の写真があれば追加してください</small>
+                    </div>
+                    <button id="addRecordBtn" type="button" onclick="addActivityRecord()">📝 記録を追加</button>
                 </div>
                 
                 <!-- 活動記録一覧 -->

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Receiver</title>
+</head>
+<body>
+<script>
+// Webhook受信処理
+function receiveWebhook() {
+    // URLパラメータから投稿データを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('data')) {
+        try {
+            const photoData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+            addPhotoToGallery(photoData);
+        } catch (error) {
+            console.error('Error parsing webhook data:', error);
+        }
+    }
+    
+    // PostMessage受信
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'photoUpload') {
+            addPhotoToGallery(event.data.photoData);
+        }
+    });
+}
+
+function addPhotoToGallery(photoData) {
+    // LocalStorageに保存
+    let savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+    
+    const newPhoto = {
+        url: photoData.imageUrl,
+        title: photoData.title,
+        description: photoData.description,
+        photographer: photoData.photographer,
+        timestamp: new Date(photoData.timestamp).toISOString(),
+        source: 'googleForm'
+    };
+    
+    savedPhotos.push(newPhoto);
+    localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
+    
+    // 成功メッセージ
+    console.log('Photo added to gallery:', newPhoto);
+    
+    // 親ウィンドウに通知
+    if (window.parent) {
+        window.parent.postMessage({
+            type: 'photoAdded',
+            photo: newPhoto
+        }, '*');
+    }
+}
+
+// ページ読み込み時に実行
+receiveWebhook();
+</script>
+</body>
+</html>
