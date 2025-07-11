@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- カモメの体 -->
+  <ellipse cx="16" cy="18" rx="7" ry="4" fill="#ffffff" stroke="#666" stroke-width="1"/>
+  
+  <!-- カモメの頭と首 -->
+  <ellipse cx="16" cy="11" rx="3.5" ry="4" fill="#ffffff" stroke="#666" stroke-width="1"/>
+  
+  <!-- 翼（広げた状態） -->
+  <path d="M9 16 Q5 14 3 12 Q2 15 5 17 Q8 18 9 16" fill="#f8f8f8" stroke="#666" stroke-width="1"/>
+  <path d="M23 16 Q27 14 29 12 Q30 15 27 17 Q24 18 23 16" fill="#f8f8f8" stroke="#666" stroke-width="1"/>
+  
+  <!-- 翼の先端（濃いグレー） -->
+  <path d="M3 12 Q1 13 2 15 Q3 14 3 12" fill="#999"/>
+  <path d="M29 12 Q31 13 30 15 Q29 14 29 12" fill="#999"/>
+  
+  <!-- くちばし（オレンジ） -->
+  <path d="M12.5 11 L8 10.5 L12.5 9.5 Z" fill="#ff8c42"/>
+  
+  <!-- 目 -->
+  <circle cx="17.5" cy="9.5" r="0.8" fill="#333"/>
+  
+  <!-- 尻尾 -->
+  <path d="M23 18 Q26 19 28 17 Q25 20 23 18" fill="#f8f8f8" stroke="#666" stroke-width="1"/>
+</svg>
