@@ -50,13 +50,18 @@
                         <input type="text" id="birdName" placeholder="例：ヤマガラ" required>
                     </div>
                     <div class="form-group">
-                        <label for="birdCategory">生息環境</label>
+                        <label for="birdCategory">観察環境</label>
                         <select id="birdCategory">
                             <option value="">選択してください</option>
-                            <option value="sea">海鳥</option>
-                            <option value="river">水鳥</option>
-                            <option value="mountain">山鳥</option>
-                            <option value="rare">希少種</option>
+                            <option value="forest">森林（落葉広葉樹林、常緑広葉樹林、針葉樹林、混交林）</option>
+                            <option value="farmland">農地（田んぼ、畑、果樹園）</option>
+                            <option value="grassland">草地（原野、河川敷、放棄地）</option>
+                            <option value="urban">市街地（公園、街路樹、住宅地、ビル街）</option>
+                            <option value="water">河川・湖沼（川、池、湖、ダム）</option>
+                            <option value="wetland">湿地（干潟、湿原、沼）</option>
+                            <option value="coastal">海岸（砂浜、岩礁、港湾）</option>
+                            <option value="mountain">山岳地帯（高山帯、亜高山帯）</option>
+                            <option value="other">その他（ゴルフ場、埋立地など）</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -91,10 +96,15 @@
                 </div>
                 <div class="category-tabs">
                     <button class="category-tab active" data-category="all">すべて</button>
-                    <button class="category-tab" data-category="sea">海鳥</button>
-                    <button class="category-tab" data-category="river">水鳥</button>
-                    <button class="category-tab" data-category="mountain">山鳥</button>
-                    <button class="category-tab" data-category="rare">希少種</button>
+                    <button class="category-tab" data-category="forest">森林</button>
+                    <button class="category-tab" data-category="farmland">農地</button>
+                    <button class="category-tab" data-category="grassland">草地</button>
+                    <button class="category-tab" data-category="urban">市街地</button>
+                    <button class="category-tab" data-category="water">河川・湖沼</button>
+                    <button class="category-tab" data-category="wetland">湿地</button>
+                    <button class="category-tab" data-category="coastal">海岸</button>
+                    <button class="category-tab" data-category="mountain">山岳地帯</button>
+                    <button class="category-tab" data-category="other">その他</button>
                 </div>
 
                 <div class="birds-grid" id="birdsGrid">

@@ -3878,4 +3878,32 @@ footer p {
         padding: 16px;
         font-size: 16px;
     }
+    
+    /* Category tabs mobile responsive */
+    .category-tabs {
+        gap: 4px;
+        margin-bottom: 20px;
+    }
+    
+    .category-tab {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        border-radius: 16px;
+        min-width: 0;
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-tabs {
+        gap: 3px;
+        margin-bottom: 16px;
+    }
+    
+    .category-tab {
+        padding: 6px 8px;
+        font-size: 0.7rem;
+        border-radius: 12px;
+    }
 }

@@ -1258,7 +1258,7 @@ function displayBirdRecords() {
                 <span class="frequency">${bird.frequency}</span>
             </div>
             <div class="bird-info">
-                ${bird.category ? `<p><strong>生息環境:</strong> ${getCategoryName(bird.category)}</p>` : ''}
+                ${bird.category ? `<p><strong>観察環境:</strong> ${getCategoryName(bird.category)}</p>` : ''}
                 ${bird.location ? `<p><strong>観察地:</strong> ${bird.location}</p>` : ''}
                 ${bird.observationDate ? `<p><strong>観察日時:</strong> ${new Date(bird.observationDate).toLocaleString('ja-JP')}</p>` : ''}
                 ${bird.season ? `<p><strong>観察時期:</strong> ${bird.season}</p>` : ''}
@@ -1960,10 +1960,15 @@ function initBirdRecords() {
 
 function getCategoryName(category) {
     const categories = {
-        'sea': '海鳥',
-        'river': '水鳥', 
-        'mountain': '山鳥',
-        'rare': '希少種'
+        'forest': '森林',
+        'farmland': '農地',
+        'grassland': '草地',
+        'urban': '市街地',
+        'water': '河川・湖沼',
+        'wetland': '湿地',
+        'coastal': '海岸',
+        'mountain': '山岳地帯',
+        'other': 'その他'
     };
     return categories[category] || '';
 }
