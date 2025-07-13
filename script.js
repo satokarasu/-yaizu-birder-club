@@ -874,20 +874,21 @@ function displayPhotos() {
                 </div>
             </div>
             <div class="photo-actions">
-                <button class="delete-btn" onclick="deletePhoto(${index})">削除</button>
+                <button class="delete-btn" onclick="deleteGalleryPhoto(${index})">削除</button>
             </div>
         `;
         photosContainer.appendChild(photoCard);
     });
 }
 
-// 写真を削除
-function deletePhoto(index) {
+// ギャラリー写真を削除
+function deleteGalleryPhoto(index) {
     if (confirm('この写真を削除してもよろしいですか？')) {
         let savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
         savedPhotos.splice(index, 1);
         localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
         displayPhotos();
+        showMessage('写真を削除しました。', 'success');
     }
 }
 
@@ -1720,14 +1721,14 @@ function loadPhotos() {
                 <div class="photo-meta">
                     <span>📷 ${photo.photographer}</span>
                     <span>📅 ${photo.uploadDate}</span>
-                    <button class="delete-photo-btn" onclick="deletePhoto(${photo.id})">削除</button>
+                    <button class="delete-photo-btn" onclick="deleteBirdPhoto(${photo.id})">削除</button>
                 </div>
             </div>
         </div>
     `).join('');
 }
 
-function deletePhoto(photoId) {
+function deleteBirdPhoto(photoId) {
     if (!confirm('この写真を削除しますか？')) return;
     
     const photos = JSON.parse(localStorage.getItem('birdPhotos') || '[]');
@@ -2144,25 +2145,3 @@ if (window.location.pathname.includes('birds.html')) {
     }
 }
 
-// Upload tab switching functionality
-function switchUploadTab(tabType) {
-    // Remove active class from all tabs
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Add active class to clicked tab
-    event.target.classList.add('active');
-    
-    // Show/hide forms
-    const directForm = document.getElementById('directUploadForm');
-    const googleFormSection = document.getElementById('googleFormSection');
-    
-    if (tabType === 'direct') {
-        directForm.style.display = 'block';
-        googleFormSection.style.display = 'none';
-    } else if (tabType === 'form') {
-        directForm.style.display = 'none';
-        googleFormSection.style.display = 'block';
-    }
-}

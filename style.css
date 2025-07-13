@@ -630,20 +630,22 @@ section h2 {
     background: rgba(220, 53, 69, 0.9);
     color: white;
     border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    padding: 8px 16px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.2rem;
-    display: flex;
+    font-size: 0.9rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     transition: var(--transition);
+    white-space: nowrap;
 }
 
 .delete-btn:hover {
     background: #dc3545;
-    transform: scale(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .photo-info h4 {
@@ -3070,15 +3072,22 @@ footer p {
     background: #dc3545;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
 }
 
 .delete-photo-btn:hover {
     background: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .no-photos {
@@ -3586,40 +3595,6 @@ footer p {
     }
 }
 
-/* Upload Tabs Styling */
-.upload-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 8px;
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-}
-
-.tab-btn {
-    flex: 1;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--text-secondary);
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 14px;
-}
-
-.tab-btn.active {
-    background: var(--ocean-blue);
-    color: white;
-    box-shadow: var(--shadow-minimal);
-}
-
-.tab-btn:hover:not(.active) {
-    background: rgba(30, 136, 229, 0.1);
-    color: var(--ocean-blue);
-}
 
 /* Google Form Section Styling */
 .google-form-section {
@@ -3767,16 +3742,6 @@ footer p {
 }
 
 @media (max-width: 768px) {
-    .upload-tabs {
-        flex-direction: column;
-        gap: 4px;
-    }
-    
-    .tab-btn {
-        padding: 16px;
-        font-size: 16px;
-    }
-    
     .google-form-actions {
         flex-direction: column;
     }

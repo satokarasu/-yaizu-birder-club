@@ -42,45 +42,8 @@
             <div class="container">
                 <h2>写真投稿</h2>
                 
-                <!-- 投稿方法選択タブ -->
-                <div class="upload-tabs">
-                    <button class="tab-btn active" onclick="switchUploadTab('direct')">直接アップロード</button>
-                    <button class="tab-btn" onclick="switchUploadTab('form')">Googleフォーム</button>
-                </div>
-
-                <!-- 直接アップロードフォーム -->
-                <div class="photo-upload-form" id="directUploadForm">
-                    <h3>📸 写真を投稿する</h3>
-                    <div class="form-group">
-                        <label for="photoFiles">写真（複数選択可能）</label>
-                        <div class="file-upload-area" id="photoUploadArea">
-                            <div class="upload-icon">📁</div>
-                            <p>クリックして写真を選択またはドラッグ＆ドロップ</p>
-                            <input type="file" id="photoFiles" accept="image/*" multiple style="display: none;">
-                        </div>
-                        <div id="photoPreview" class="photo-preview-container"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="photoTitle">写真タイトル</label>
-                        <input type="text" id="photoTitle" placeholder="例：焼津港のカモメ" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="photoDescription">説明・撮影場所</label>
-                        <textarea id="photoDescription" placeholder="撮影場所や状況について" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="photographerName">撮影者名</label>
-                        <input type="text" id="photographerName" placeholder="お名前">
-                    </div>
-                    <div class="form-group">
-                        <label for="shotDate">撮影日時</label>
-                        <input type="datetime-local" id="shotDate">
-                    </div>
-                    <button id="uploadPhotoBtn" type="button" onclick="uploadPhotos()">📸 写真を投稿</button>
-                </div>
-
                 <!-- Googleフォーム投稿セクション -->
-                <div class="google-form-section" id="googleFormSection" style="display: none;">
+                <div class="google-form-section" id="googleFormSection">
                     <h3>📱 Googleフォームで投稿</h3>
                     <div class="form-info">
                         <p>スマートフォンから簡単に写真を投稿できます。</p>
