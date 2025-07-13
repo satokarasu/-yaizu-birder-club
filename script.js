@@ -937,21 +937,24 @@ async function fetchFromSpreadsheet() {
                     const timestamp = new Date(row[0]).toISOString();
                     
                     if (!existingTimestamps.includes(timestamp)) {
-                        const imageFiles = row[4] || '';
+                        const imageFiles = row[1] || ''; // B列（インデックス1）に画像URL
                         let imageUrl = '';
                         
                         if (imageFiles) {
                             const fileId = extractFileIdFromUrl(imageFiles);
                             if (fileId) {
                                 imageUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
+                            } else {
+                                // ファイルIDが取得できない場合は元のURLを使用
+                                imageUrl = imageFiles;
                             }
                         }
                         
                         const photoData = {
                             url: imageUrl,
-                            title: row[1] || '無題',
-                            description: row[2] || '',
-                            photographer: row[3] || '投稿者不明',
+                            title: row[2] || '無題', // C列がタイトル
+                            description: row[3] || '', // D列が説明
+                            photographer: row[4] || '投稿者不明', // E列が撮影者名
                             timestamp: timestamp,
                             source: 'googleForm'
                         };
