@@ -819,6 +819,7 @@ function addGoogleFormPhoto() {
     }
     
     const photoData = {
+        id: 'manual_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
         url: displayUrl,
         title: title,
         description: description,
@@ -874,7 +875,7 @@ function displayPhotos() {
                 </div>
             </div>
             <div class="photo-actions">
-                <button class="delete-btn" onclick="deleteGalleryPhoto(${index})">削除</button>
+                <button class="delete-btn" onclick="deleteGalleryPhoto('${photo.timestamp}')">削除</button>
             </div>
         `;
         photosContainer.appendChild(photoCard);
@@ -882,11 +883,18 @@ function displayPhotos() {
 }
 
 // ギャラリー写真を削除
-function deleteGalleryPhoto(index) {
+function deleteGalleryPhoto(timestamp) {
     if (confirm('この写真を削除してもよろしいですか？')) {
         let savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
-        savedPhotos.splice(index, 1);
-        localStorage.setItem('galleryPhotos', JSON.stringify(savedPhotos));
+        
+        // 削除リストに追加（スプレッドシートから復活を防ぐため）
+        let deletedPhotos = JSON.parse(localStorage.getItem('deletedPhotos') || '[]');
+        deletedPhotos.push(timestamp);
+        localStorage.setItem('deletedPhotos', JSON.stringify(deletedPhotos));
+        
+        // タイムスタンプで写真を特定して削除
+        const updatedPhotos = savedPhotos.filter(photo => photo.timestamp !== timestamp);
+        localStorage.setItem('galleryPhotos', JSON.stringify(updatedPhotos));
         displayPhotos();
         showMessage('写真を削除しました。', 'success');
     }
@@ -932,12 +940,14 @@ async function fetchFromSpreadsheet() {
             let newPhotosCount = 0;
             const savedPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
             const existingTimestamps = savedPhotos.map(p => p.timestamp);
+            const deletedTimestamps = JSON.parse(localStorage.getItem('deletedPhotos') || '[]');
             
             rows.forEach((row, index) => {
                 if (row.length >= 4) {
                     const timestamp = new Date(row[0]).toISOString();
                     
-                    if (!existingTimestamps.includes(timestamp)) {
+                    // 既存または削除済みの写真をスキップ
+                    if (!existingTimestamps.includes(timestamp) && !deletedTimestamps.includes(timestamp)) {
                         const imageFiles = row[1] || ''; // B列（インデックス1）に画像URL
                         let imageUrl = '';
                         
@@ -952,6 +962,7 @@ async function fetchFromSpreadsheet() {
                         }
                         
                         const photoData = {
+                            id: 'google_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
                             url: imageUrl,
                             title: row[2] || '無題', // C列がタイトル
                             description: row[3] || '', // D列が説明
@@ -2142,6 +2153,53 @@ if (window.location.pathname.includes('birds.html')) {
         document.addEventListener('DOMContentLoaded', initBirdRecords);
     } else {
         initBirdRecords();
+    }
+}
+
+// 削除リスト管理機能
+function viewDeletedPhotos() {
+    const deletedTimestamps = JSON.parse(localStorage.getItem('deletedPhotos') || '[]');
+    const deletedPhotosList = document.getElementById('deletedPhotosList');
+    
+    if (deletedTimestamps.length === 0) {
+        deletedPhotosList.innerHTML = '<p>削除済み写真はありません。</p>';
+    } else {
+        deletedPhotosList.innerHTML = `
+            <h5>削除済み写真 (${deletedTimestamps.length}件)</h5>
+            <ul>
+                ${deletedTimestamps.map((timestamp, index) => `
+                    <li>
+                        ${new Date(timestamp).toLocaleString('ja-JP')} 
+                        <button onclick="restorePhoto('${timestamp}')" class="restore-btn">復元</button>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+    }
+    
+    deletedPhotosList.style.display = deletedPhotosList.style.display === 'none' ? 'block' : 'none';
+}
+
+function clearDeletedPhotos() {
+    if (confirm('削除リストをクリアしますか？スプレッドシートから写真が復活する可能性があります。')) {
+        localStorage.removeItem('deletedPhotos');
+        showMessage('削除リストをクリアしました。', 'success');
+        
+        // リストが表示されている場合は更新
+        const deletedPhotosList = document.getElementById('deletedPhotosList');
+        if (deletedPhotosList.style.display !== 'none') {
+            viewDeletedPhotos();
+        }
+    }
+}
+
+function restorePhoto(timestamp) {
+    if (confirm('この写真を削除リストから除外しますか？次回チェック時に復活します。')) {
+        let deletedTimestamps = JSON.parse(localStorage.getItem('deletedPhotos') || '[]');
+        deletedTimestamps = deletedTimestamps.filter(t => t !== timestamp);
+        localStorage.setItem('deletedPhotos', JSON.stringify(deletedTimestamps));
+        showMessage('写真を削除リストから除外しました。', 'success');
+        viewDeletedPhotos(); // リストを更新
     }
 }
 

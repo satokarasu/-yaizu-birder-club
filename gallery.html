@@ -99,6 +99,21 @@
                             ➕ 手動で写真を追加
                         </button>
                     </div>
+                    
+                    <!-- 削除リスト管理 -->
+                    <div class="delete-list-section">
+                        <h4>削除リスト管理</h4>
+                        <div class="delete-list-controls">
+                            <button onclick="viewDeletedPhotos()" class="view-btn">
+                                👁️ 削除済み写真を確認
+                            </button>
+                            <button onclick="clearDeletedPhotos()" class="clear-btn">
+                                🗑️ 削除リストをクリア
+                            </button>
+                        </div>
+                        <p class="delete-list-info">削除した写真がスプレッドシートから復活するのを防ぎます。</p>
+                        <div id="deletedPhotosList" class="deleted-photos-list" style="display: none;"></div>
+                    </div>
                 </div>
 
                 <h2>投稿された写真</h2>
