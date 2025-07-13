@@ -41,8 +41,15 @@
         <section class="gallery">
             <div class="container">
                 <h2>写真投稿</h2>
-                <!-- 写真投稿フォーム -->
-                <div class="photo-upload-form">
+                
+                <!-- 投稿方法選択タブ -->
+                <div class="upload-tabs">
+                    <button class="tab-btn active" onclick="switchUploadTab('direct')">直接アップロード</button>
+                    <button class="tab-btn" onclick="switchUploadTab('form')">Googleフォーム</button>
+                </div>
+
+                <!-- 直接アップロードフォーム -->
+                <div class="photo-upload-form" id="directUploadForm">
                     <h3>📸 写真を投稿する</h3>
                     <div class="form-group">
                         <label for="photoFiles">写真（複数選択可能）</label>
@@ -70,6 +77,65 @@
                         <input type="datetime-local" id="shotDate">
                     </div>
                     <button id="uploadPhotoBtn" type="button" onclick="uploadPhotos()">📸 写真を投稿</button>
+                </div>
+
+                <!-- Googleフォーム投稿セクション -->
+                <div class="google-form-section" id="googleFormSection" style="display: none;">
+                    <h3>📱 Googleフォームで投稿</h3>
+                    <div class="form-info">
+                        <p>スマートフォンから簡単に写真を投稿できます。</p>
+                        <p>以下のリンクからGoogleフォームを開いて写真をアップロードしてください。</p>
+                    </div>
+                    
+                    <div class="google-form-actions">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdrektwIDfetljw0PHkbriutwehKfrRRJye8B5AVHpq1lIe0A/viewform?usp=dialog" 
+                           target="_blank" class="google-form-btn">
+                            📝 Googleフォームで投稿する
+                        </a>
+                        <button onclick="fetchFromSpreadsheet()" class="fetch-btn">
+                            🔄 新しい投稿をチェック
+                        </button>
+                    </div>
+                    
+                    <div id="fetchStatus" class="fetch-status"></div>
+                    
+                    <!-- 自動チェック設定 -->
+                    <div class="auto-check-section">
+                        <h4>自動チェック設定</h4>
+                        <div class="auto-check-controls">
+                            <button onclick="startAutoCheck()" class="auto-btn">
+                                ▶️ 自動チェック開始
+                            </button>
+                            <button onclick="stopAutoCheck()" class="auto-btn">
+                                ⏹️ 自動チェック停止
+                            </button>
+                        </div>
+                        <p class="auto-check-info">自動チェックを有効にすると、5分おきに新しい投稿をチェックします。</p>
+                    </div>
+
+                    <!-- 手動投稿追加フォーム -->
+                    <div class="manual-add-section">
+                        <h4>手動追加（管理者用）</h4>
+                        <div class="form-group">
+                            <label for="googleImageUrl">画像URL（Google Drive）</label>
+                            <input type="url" id="googleImageUrl" placeholder="https://drive.google.com/file/d/...">
+                        </div>
+                        <div class="form-group">
+                            <label for="googlePhotoTitle">タイトル</label>
+                            <input type="text" id="googlePhotoTitle" placeholder="写真のタイトル">
+                        </div>
+                        <div class="form-group">
+                            <label for="googlePhotoDescription">説明</label>
+                            <textarea id="googlePhotoDescription" placeholder="撮影場所や状況について" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="googlePhotographer">撮影者名</label>
+                            <input type="text" id="googlePhotographer" placeholder="撮影者名">
+                        </div>
+                        <button onclick="addGoogleFormPhoto()" class="add-btn">
+                            ➕ 手動で写真を追加
+                        </button>
+                    </div>
                 </div>
 
                 <h2>投稿された写真</h2>

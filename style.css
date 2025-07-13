@@ -2178,8 +2178,12 @@ footer p {
     }
     
     header h1 {
-        font-size: 1.4rem;
-        gap: 10px;
+        font-size: 1.2rem;
+        gap: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100vw - 120px);
     }
     
     .mobile-menu-toggle {
@@ -2652,8 +2656,12 @@ footer p {
     }
     
     header h1 {
-        font-size: 1.25rem;
-        gap: 8px;
+        font-size: 1.1rem;
+        gap: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100vw - 100px);
     }
     
     header .icon {
@@ -3575,5 +3583,217 @@ footer p {
     
     .bird-photo-placeholder p {
         font-size: 0.8rem;
+    }
+}
+
+/* Upload Tabs Styling */
+.upload-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+}
+
+.tab-btn.active {
+    background: var(--ocean-blue);
+    color: white;
+    box-shadow: var(--shadow-minimal);
+}
+
+.tab-btn:hover:not(.active) {
+    background: rgba(30, 136, 229, 0.1);
+    color: var(--ocean-blue);
+}
+
+/* Google Form Section Styling */
+.google-form-section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(20px);
+}
+
+.google-form-section h3 {
+    color: var(--ocean-blue);
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+}
+
+.google-form-section h4 {
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    margin-top: 24px;
+    font-size: 1.1rem;
+}
+
+.form-info {
+    background: var(--tertiary-color);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--ocean-blue);
+}
+
+.form-info p {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.form-info p:last-child {
+    margin-bottom: 0;
+}
+
+.google-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.google-form-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: var(--gradient-ocean);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: var(--shadow-minimal);
+}
+
+.google-form-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+.fetch-btn, .auto-btn, .add-btn {
+    padding: 12px 20px;
+    border: 2px solid var(--ocean-blue);
+    background: transparent;
+    color: var(--ocean-blue);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.fetch-btn:hover, .auto-btn:hover, .add-btn:hover {
+    background: var(--ocean-blue);
+    color: white;
+}
+
+.fetch-status {
+    padding: 12px;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+.auto-check-section {
+    background: var(--secondary-color);
+    padding: 16px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.auto-check-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.auto-check-info {
+    color: var(--text-tertiary);
+    font-size: 14px;
+    margin: 0;
+}
+
+.manual-add-section {
+    background: var(--tertiary-color);
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.manual-add-section .form-group {
+    margin-bottom: 16px;
+}
+
+.manual-add-section input,
+.manual-add-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.manual-add-section input:focus,
+.manual-add-section textarea:focus {
+    outline: none;
+    border-color: var(--ocean-blue);
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+}
+
+.manual-add-section label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+    .upload-tabs {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .tab-btn {
+        padding: 16px;
+        font-size: 16px;
+    }
+    
+    .google-form-actions {
+        flex-direction: column;
+    }
+    
+    .google-form-btn {
+        text-align: center;
+        justify-content: center;
+        padding: 16px 20px;
+    }
+    
+    .auto-check-controls {
+        flex-direction: column;
+    }
+    
+    .fetch-btn, .auto-btn, .add-btn {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
     }
 }

@@ -915,9 +915,9 @@ async function fetchFromSpreadsheet() {
     
     try {
         // Google Sheets APIを使用してスプレッドシートから取得
-        const spreadsheetId = '1TVZWV0lYFxxaj9gIjiP9gxlh5RNy9QbgQgqmLK3Dv-g'; // フォームのスプレッドシートID
+        const spreadsheetId = '1cZe9xG9iRqR8S-Vz6F_95cGYgy7F7RA6oUYf4VOKeb8'; // フォームのスプレッドシートID
         const range = 'A:E'; // A列からE列まで
-        const apiKey = 'YOUR_API_KEY_HERE'; // ここにAPIキーを入力
+        const apiKey = 'AIzaSyDOPFQOigc5oVuJ3YWvtY36GRRcBhb-iLs'; // ここにAPIキーを入力
         
         const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
         
@@ -2138,5 +2138,28 @@ if (window.location.pathname.includes('birds.html')) {
         document.addEventListener('DOMContentLoaded', initBirdRecords);
     } else {
         initBirdRecords();
+    }
+}
+
+// Upload tab switching functionality
+function switchUploadTab(tabType) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Add active class to clicked tab
+    event.target.classList.add('active');
+    
+    // Show/hide forms
+    const directForm = document.getElementById('directUploadForm');
+    const googleFormSection = document.getElementById('googleFormSection');
+    
+    if (tabType === 'direct') {
+        directForm.style.display = 'block';
+        googleFormSection.style.display = 'none';
+    } else if (tabType === 'form') {
+        directForm.style.display = 'none';
+        googleFormSection.style.display = 'block';
     }
 }
