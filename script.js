@@ -771,19 +771,20 @@ function displayActivityRecords() {
                 ${record.notes ? `<p><strong>詳細・感想:</strong> ${record.notes}</p>` : ''}
             </div>
             <div class="record-actions">
-                <button class="delete-btn" onclick="deleteActivityRecord(${index})">削除</button>
+                <button class="delete-btn" onclick="deleteActivityRecord('${record.id}')">削除</button>
             </div>
         `;
         recordsList.appendChild(recordCard);
     });
 }
 
-function deleteActivityRecord(index) {
+function deleteActivityRecord(recordId) {
     if (confirm('この活動記録を削除してもよろしいですか？')) {
         let savedRecords = JSON.parse(localStorage.getItem('activityRecords') || '[]');
-        savedRecords.splice(index, 1);
-        localStorage.setItem('activityRecords', JSON.stringify(savedRecords));
+        const updatedRecords = savedRecords.filter(record => record.id !== recordId);
+        localStorage.setItem('activityRecords', JSON.stringify(updatedRecords));
         displayActivityRecords();
+        showMessage('活動記録を削除しました。', 'success');
     }
 }
 
@@ -795,6 +796,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 写真アップロード機能を設定
     setupPhotoUpload();
+    
+    // 管理者コントロールの初期化（auth.jsがまだ実行されていない場合のフォールバック）
+    setTimeout(() => {
+        if (typeof initAdminControls === 'function') {
+            initAdminControls();
+        }
+    }, 100);
 });
 
 // Google フォーム投稿の手動追加
@@ -1250,29 +1258,23 @@ function displayBirdRecords() {
                 <span class="frequency">${bird.frequency}</span>
             </div>
             <div class="bird-info">
-                <p><strong>観察地:</strong> ${bird.location}</p>
+                ${bird.category ? `<p><strong>生息環境:</strong> ${getCategoryName(bird.category)}</p>` : ''}
+                ${bird.location ? `<p><strong>観察地:</strong> ${bird.location}</p>` : ''}
                 ${bird.observationDate ? `<p><strong>観察日時:</strong> ${new Date(bird.observationDate).toLocaleString('ja-JP')}</p>` : ''}
-                <p><strong>観察時期:</strong> ${bird.season || '不明'}</p>
+                ${bird.season ? `<p><strong>観察時期:</strong> ${bird.season}</p>` : ''}
                 ${bird.count ? `<p><strong>個体数:</strong> ${bird.count}羽</p>` : ''}
                 ${bird.notes ? `<p class="bird-notes"><strong>観察メモ:</strong> ${bird.notes}</p>` : ''}
             </div>
             <div class="bird-actions">
-                <button class="delete-btn" onclick="deleteBirdRecord(${index})">削除</button>
+                <button class="delete-btn" onclick="deleteBirdRecord(${bird.id})">削除</button>
             </div>
         `;
         birdsGrid.appendChild(birdCard);
     });
 }
 
-// 観察記録の削除
-function deleteBirdRecord(index) {
-    if (confirm('この観察記録を削除してもよろしいですか？')) {
-        let savedBirds = JSON.parse(localStorage.getItem('birdRecords') || '[]');
-        savedBirds.splice(index, 1);
-        localStorage.setItem('birdRecords', JSON.stringify(savedBirds));
-        displayBirdRecords();
-    }
-}
+// 観察記録の削除（インデックスベース - 削除済み）
+// この関数は安全性のため削除されました。IDベースのdeleteBirdRecord関数を使用してください。
 
 // 自動チェック機能（活動記録）
 function startActivityAutoCheck() {
@@ -1952,21 +1954,32 @@ function initSlideshowControls() {
 
 // Bird observation records functionality
 function initBirdRecords() {
-    loadBirdRecords();
+    displayBirdRecords();
     setupCategoryFilters();
+}
+
+function getCategoryName(category) {
+    const categories = {
+        'sea': '海鳥',
+        'river': '水鳥', 
+        'mountain': '山鳥',
+        'rare': '希少種'
+    };
+    return categories[category] || '';
 }
 
 function addBirdRecord() {
     const birdName = document.getElementById('birdName').value.trim();
     const category = document.getElementById('birdCategory').value;
-    const scientificName = document.getElementById('scientificName').value.trim();
     const location = document.getElementById('observationLocation').value.trim();
+    const observationDate = document.getElementById('observationDate').value;
     const season = document.getElementById('observationSeason').value.trim();
     const frequency = document.getElementById('frequency').value;
+    const birdCount = document.getElementById('birdCount').value;
     const notes = document.getElementById('observationNotes').value.trim();
     
-    if (!birdName || !location || !season || !notes) {
-        alert('必須項目を入力してください。');
+    if (!birdName) {
+        alert('鳥の名前は必須項目です。');
         return;
     }
     
@@ -1976,11 +1989,13 @@ function addBirdRecord() {
         id: Date.now(),
         name: birdName,
         category: category,
-        scientificName: scientificName,
         location: location,
+        observationDate: observationDate,
         season: season,
         frequency: frequency,
+        count: birdCount,
         notes: notes,
+        timestamp: new Date().toISOString(),
         addedDate: new Date().toLocaleDateString('ja-JP')
     };
     
@@ -1989,12 +2004,15 @@ function addBirdRecord() {
     
     // Clear form
     document.getElementById('birdName').value = '';
-    document.getElementById('scientificName').value = '';
+    document.getElementById('birdCategory').value = '';
     document.getElementById('observationLocation').value = '';
+    document.getElementById('observationDate').value = '';
     document.getElementById('observationSeason').value = '';
+    document.getElementById('frequency').value = '★★★';
+    document.getElementById('birdCount').value = '';
     document.getElementById('observationNotes').value = '';
     
-    loadBirdRecords();
+    displayBirdRecords();
     showMessage('観察記録を追加しました！', 'success');
 }
 

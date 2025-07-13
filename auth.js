@@ -51,9 +51,29 @@ function logout() {
     window.location.href = 'login.html';
 }
 
+// 管理者チェック
+function isAdmin() {
+    const currentUser = localStorage.getItem('birderClubUser');
+    return currentUser === 'admin';
+}
+
+// 管理者のみ表示する要素を制御
+function initAdminControls() {
+    if (!isAdmin()) {
+        // 管理者でない場合は管理者用要素を非表示
+        const adminElements = document.querySelectorAll('.admin-only');
+        adminElements.forEach(element => {
+            element.style.display = 'none';
+        });
+    }
+}
+
 // ページ読み込み時の認証チェック
 document.addEventListener('DOMContentLoaded', function() {
-    checkAuth();
+    if (checkAuth()) {
+        // 認証成功時に管理者コントロールを初期化
+        initAdminControls();
+    }
     
     // ログインフォームの処理
     const loginForm = document.getElementById('loginForm');
